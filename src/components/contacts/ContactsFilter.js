@@ -29,7 +29,7 @@ export default (props) => {
           <i className="fas fa-sync-alt mr-2"></i> Frequent
         </FilterLink>
         <FilterLink filter={contactVisiblityFilter.STARRED_CONTACT}>
-          <i className="fas fa-star mr-2"></i> Starred
+          <i className="fas fa-star mr-2"></i> Current Month
         </FilterLink>
         <ListGroupItem>
           <hr />
@@ -38,13 +38,13 @@ export default (props) => {
           filter={contactVisiblityFilter.ENGINEERING_DEPARTMENT_CONTACT}
           departmentValue="Engineering"
         >
-          <i className="fas fa-tags mr-2"></i> Engineering
+          <i className="fas fa-tags mr-2"></i> Business
         </FilterLink>
         <FilterLink
           filter={contactVisiblityFilter.SALES_DEPARTMENT_CONTACT}
           departmentValue="Sales"
         >
-          <i className="fas fa-tags mr-2"></i> Sales
+          <i className="fas fa-tags mr-2"></i> Household
         </FilterLink>
         <FilterLink
           filter={contactVisiblityFilter.SUPPORT_DEPARTMENT_CONTACT}
@@ -62,6 +62,8 @@ export default (props) => {
         <ModalHeader toggle={toggle.bind(null)}>Add Contact</ModalHeader>
         <AddContact />
       </Modal>
+
+      
     </div>
   );
 };

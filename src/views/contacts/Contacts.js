@@ -25,8 +25,10 @@ export default () => {
             "left-part bg-white " + (showLeft === true ? "show-panel" : "")
           }
         >
+          
           <ContactsFilter />
         </div>
+        console.log(showLeft);
         <div className="right-part bg-white app-drawer-content">
           <div
             className={

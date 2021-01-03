@@ -11,6 +11,13 @@ const Todo = lazy(() => import("../views/todo/Todo"));
 //dashboards
 const Analytical = lazy(() => import("../views/dashboards/Analytical"));
 
+
+//Customer
+const Customerlist = lazy(() => import("../views/customer/customerlist"));
+const Customerdashboard = lazy(() => import("../views/customer/customer"));
+const Customerdetail = lazy(() => import("../views/customer/customerdetail"));
+
+
 const Alerts = lazy(() => import("../views/ui-components/Alert"));
 const Badges = lazy(() => import("../views/ui-components/Badge"));
 const Spinners = lazy(() => import("../views/ui-components/Spinner"));
@@ -81,6 +88,7 @@ const Datatable = lazy(() => import("../views/tables/ReactBootstrapTable"));
 const Vectormap = lazy(() => import("../views/maps/VectorMap"));
 const auths = [].concat(AuthRoutes);
 
+
 var ThemeRoutes = [
  
   {
@@ -109,23 +117,28 @@ var ThemeRoutes = [
     icon: "",
   },
   {
-    path: "/contacts",
+    path: "/customer",
     name: "Customer",
     icon: "phone",
-    component: Contacts,
+    component: Customerlist,
   },
   {
     path: "/notes",
     name: "Cases",
     icon: "tag",
-    component: Notes,
+    component: Customerdashboard,
   },
 
   {
     path: "/todos",
     name: "Todo",
     icon: "edit",
-    component: Todo,
+    component: Contacts,
+  },
+  {
+    path: "/customerdetail",
+    icon: "edit",
+    component: Customerdetail ,
   },
   {
     path: "/chat",

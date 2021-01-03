@@ -1,0 +1,4 @@
+{
+    "getAllcustomer" : "http://127.0.0.1:8000/security/accounts/",
+    "getAllmachine" : "http://127.0.0.1:8000/management/Machines/"
+}
