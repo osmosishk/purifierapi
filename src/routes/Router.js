@@ -86,7 +86,7 @@ var ThemeRoutes = [
   {
     collapse: true,
     path: "/dashboards",
-    name: "Dashboards",
+    name: "Home",
     state: "dashboardpages",
     icon: "home",
     badges: "side-badge badge badge-info",
@@ -102,185 +102,7 @@ var ThemeRoutes = [
       
     ],
   },
-  {
-    collapse: true,
-    path: "/ui-components",
-    name: "Ui Elements",
-    state: "uicomponents",
-    icon: "aperture",
-    badges: "side-badge badge badge-danger",
-    badgeno: "20",
-    child: [
-      {
-        path: "/ui-components/alert",
-        name: "Alerts",
-        
-        icon: "mdi mdi-comment-processing-outline",
-        component: Alerts,
-      },
-      {
-        path: "/ui-components/badge",
-        name: "Badges",
-
-        icon: "mdi mdi-arrange-send-backward",
-        component: Badges,
-      },
-      {
-        path: "/ui-components/breadcrumb",
-        name: "Breadcrumbs",
-
-        icon: "mdi mdi-equal",
-        component: Breadcrumbs,
-      },
-      {
-        path: "/ui-components/button",
-        name: "Buttons",
-
-        icon: "mdi mdi-toggle-switch",
-        component: Buttons,
-      },
-      {
-        path: "/ui-components/dropdown",
-        name: "Button Dropdown",
-
-        icon: "mdi mdi-cards-variant",
-        component: Dropdowns,
-      },
-      {
-        path: "/ui-components/btn-group",
-        name: "Button Group",
-
-        icon: "mdi mdi-checkbox-multiple-blank",
-        component: BtnGroups,
-      },
-      {
-        path: "/ui-components/card",
-        name: "Cards",
-
-        icon: "mdi mdi-credit-card-multiple",
-        component: Cards,
-      },
-      {
-        path: "/ui-components/collapse",
-        name: "Collapse",
-
-        icon: "mdi mdi-elevator",
-        component: CollapseComponent,
-      },
-      {
-        path: "/ui-components/carousel",
-        name: "Carousel",
-
-        icon: "mdi mdi-view-carousel",
-        component: CarouselComponent,
-      },
-      {
-        path: "/ui-components/jumbotron",
-        name: "Jumbotron",
-
-        icon: "mdi mdi-hamburger",
-        component: JumbotronComponent,
-      },
-      {
-        path: "/ui-components/layout",
-        name: "Layout",
-
-        icon: "mdi mdi-apps",
-        component: LayoutComponent,
-      },
-      {
-        path: "/ui-components/listgroup",
-        name: "List Group",
-
-        icon: "mdi mdi-format-list-bulleted",
-        component: ListComponent,
-      },
-      {
-        path: "/ui-components/media",
-        name: "Media",
-
-        icon: "mdi mdi-folder-multiple-image",
-        component: MediaComponent,
-      },
-      {
-        path: "/ui-components/modal",
-        name: "Modal",
-
-        icon: "mdi mdi mdi-tablet",
-        component: ModalComponent,
-      },
-      {
-        path: "/ui-components/navbar",
-        name: "Navbar",
-
-        icon: "mdi mdi-page-layout-header",
-        component: NavbarComponent,
-      },
-      {
-        path: "/ui-components/navs",
-        name: "Navs",
-
-        icon: "mdi mdi-panorama-wide-angle",
-        component: NavsComponent,
-      },
-      {
-        path: "/ui-components/pagination",
-        name: "Pagination",
-
-        icon: "mdi mdi-priority-high",
-        component: PaginationComponent,
-      },
-      {
-        path: "/ui-components/popover",
-        name: "Popover",
-
-        icon: "mdi mdi-pencil-circle",
-        component: PopoverComponent,
-      },
-      {
-        path: "/ui-components/progress",
-        name: "Progress",
-
-        icon: "mdi mdi-poll",
-        component: ProgressComponent,
-      },
-      {
-        path: "/ui-components/table",
-        name: "Tables",
-
-        icon: "mdi mdi-border-none",
-        component: TableComponent,
-      },
-      {
-        path: "/ui-components/tabs",
-        name: "Tabs",
-
-        icon: "mdi mdi-tab-unselected",
-        component: TabsComponent,
-      },
-      {
-        path: "/ui-components/tooltip",
-        name: "Tooltips",
-
-        icon: "mdi mdi-image-filter-vintage",
-        component: TooltipComponent,
-      },
-      {
-        path: "/ui-components/spinner",
-        name: "Spinner",
-
-        icon: "mdi mdi-image-filter-vintage",
-        component: Spinners,
-      },
-      {
-        path: "/ui-components/toasts",
-        name: "Toasts",
-
-        icon: "mdi mdi-image-filter-vintage",
-        component: Toasts,
-      },
-    ],
-  },
+  
   {
     navlabel: true,
     name: "APPS",
@@ -578,6 +400,186 @@ var ThemeRoutes = [
 
         icon: "mdi mdi-flag-triangle",
         component: FlagIcon,
+      },
+    ],
+  },
+
+  {
+    collapse: true,
+    path: "/ui-components",
+    name: "Ui Elements",
+    state: "uicomponents",
+    icon: "aperture",
+    badges: "side-badge badge badge-danger",
+    badgeno: "20",
+    child: [
+      {
+        path: "/ui-components/alert",
+        name: "Alerts",
+        
+        icon: "mdi mdi-comment-processing-outline",
+        component: Alerts,
+      },
+      {
+        path: "/ui-components/badge",
+        name: "Badges",
+
+        icon: "mdi mdi-arrange-send-backward",
+        component: Badges,
+      },
+      {
+        path: "/ui-components/breadcrumb",
+        name: "Breadcrumbs",
+
+        icon: "mdi mdi-equal",
+        component: Breadcrumbs,
+      },
+      {
+        path: "/ui-components/button",
+        name: "Buttons",
+
+        icon: "mdi mdi-toggle-switch",
+        component: Buttons,
+      },
+      {
+        path: "/ui-components/dropdown",
+        name: "Button Dropdown",
+
+        icon: "mdi mdi-cards-variant",
+        component: Dropdowns,
+      },
+      {
+        path: "/ui-components/btn-group",
+        name: "Button Group",
+
+        icon: "mdi mdi-checkbox-multiple-blank",
+        component: BtnGroups,
+      },
+      {
+        path: "/ui-components/card",
+        name: "Cards",
+
+        icon: "mdi mdi-credit-card-multiple",
+        component: Cards,
+      },
+      {
+        path: "/ui-components/collapse",
+        name: "Collapse",
+
+        icon: "mdi mdi-elevator",
+        component: CollapseComponent,
+      },
+      {
+        path: "/ui-components/carousel",
+        name: "Carousel",
+
+        icon: "mdi mdi-view-carousel",
+        component: CarouselComponent,
+      },
+      {
+        path: "/ui-components/jumbotron",
+        name: "Jumbotron",
+
+        icon: "mdi mdi-hamburger",
+        component: JumbotronComponent,
+      },
+      {
+        path: "/ui-components/layout",
+        name: "Layout",
+
+        icon: "mdi mdi-apps",
+        component: LayoutComponent,
+      },
+      {
+        path: "/ui-components/listgroup",
+        name: "List Group",
+
+        icon: "mdi mdi-format-list-bulleted",
+        component: ListComponent,
+      },
+      {
+        path: "/ui-components/media",
+        name: "Media",
+
+        icon: "mdi mdi-folder-multiple-image",
+        component: MediaComponent,
+      },
+      {
+        path: "/ui-components/modal",
+        name: "Modal",
+
+        icon: "mdi mdi mdi-tablet",
+        component: ModalComponent,
+      },
+      {
+        path: "/ui-components/navbar",
+        name: "Navbar",
+
+        icon: "mdi mdi-page-layout-header",
+        component: NavbarComponent,
+      },
+      {
+        path: "/ui-components/navs",
+        name: "Navs",
+
+        icon: "mdi mdi-panorama-wide-angle",
+        component: NavsComponent,
+      },
+      {
+        path: "/ui-components/pagination",
+        name: "Pagination",
+
+        icon: "mdi mdi-priority-high",
+        component: PaginationComponent,
+      },
+      {
+        path: "/ui-components/popover",
+        name: "Popover",
+
+        icon: "mdi mdi-pencil-circle",
+        component: PopoverComponent,
+      },
+      {
+        path: "/ui-components/progress",
+        name: "Progress",
+
+        icon: "mdi mdi-poll",
+        component: ProgressComponent,
+      },
+      {
+        path: "/ui-components/table",
+        name: "Tables",
+
+        icon: "mdi mdi-border-none",
+        component: TableComponent,
+      },
+      {
+        path: "/ui-components/tabs",
+        name: "Tabs",
+
+        icon: "mdi mdi-tab-unselected",
+        component: TabsComponent,
+      },
+      {
+        path: "/ui-components/tooltip",
+        name: "Tooltips",
+
+        icon: "mdi mdi-image-filter-vintage",
+        component: TooltipComponent,
+      },
+      {
+        path: "/ui-components/spinner",
+        name: "Spinner",
+
+        icon: "mdi mdi-image-filter-vintage",
+        component: Spinners,
+      },
+      {
+        path: "/ui-components/toasts",
+        name: "Toasts",
+
+        icon: "mdi mdi-image-filter-vintage",
+        component: Toasts,
       },
     ],
   },
