@@ -1,4 +1,6 @@
 {
     "getAllcustomer" : "http://127.0.0.1:8000/security/accounts/",
-    "getAllmachine" : "http://127.0.0.1:8000/management/Machines/"
+    "getAllmachine" : "http://127.0.0.1:8000/management/Machines/",
+    "getMachineonlyclient" : "http://127.0.0.1:8000/management/list_machine_client/",
+    "getCaseonlyclient" : "http://127.0.0.1:8000/management/list_case_client/"
 }
