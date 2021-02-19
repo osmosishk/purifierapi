@@ -1,6 +1,14 @@
 {
     "getAllcustomer" : "http://127.0.0.1:8000/security/accounts/",
     "getAllmachine" : "http://127.0.0.1:8000/management/Machines/",
+    "getAllCase" : "http://127.0.0.1:8000/management/Cases/",
     "getMachineonlyclient" : "http://127.0.0.1:8000/management/list_machine_client/",
-    "getCaseonlyclient" : "http://127.0.0.1:8000/management/list_case_client/"
+    "getCaseonlyclient" : "http://127.0.0.1:8000/management/list_case_client/",
+    "updateCustomer" : "http://127.0.0.1:8000/security/update_customer_info/",
+    "updateMachine" : "http://127.0.0.1:8000/management/update_machine_info/",
+    "getAllfilter" : "http://127.0.0.1:8000/management/Filters/",
+    "getAlltechnician" : "http://127.0.0.1:8000/management/Technicians/",
+    "getAllmainpack" : "http://127.0.0.1:8000/management/MainPacks/",
+    "getAllproduct" : "http://127.0.0.1:8000/management/Product/"
+    
 }

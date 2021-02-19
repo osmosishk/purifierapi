@@ -16,6 +16,21 @@ const Analytical = lazy(() => import("../views/dashboards/Analytical"));
 const Customerlist = lazy(() => import("../views/customer/customerlist"));
 const Customerdashboard = lazy(() => import("../views/customer/customer"));
 const Customerdetail = lazy(() => import("../views/customer/customerdetail"));
+const AddCustomer = lazy(() => import("../views/customer/addnewcustomer"));
+
+//Machine
+const Machinelist= lazy(() => import("../views/machine/machinelist"));
+
+//Case
+const Caselist= lazy(() => import("../views/case/caselist"));
+
+//Setting
+const Filterlist =lazy(() => import("../views/filter/filterlist"));
+const Productlist =lazy(() => import("../views/products/productlist"));
+const Technicianlist =lazy(() => import("../views/technician/technicianlist"));
+const Mainlist =lazy(() => import("../views/maintenance/mainlist"));
+
+
 
 
 const Alerts = lazy(() => import("../views/ui-components/Alert"));
@@ -123,23 +138,18 @@ var ThemeRoutes = [
     component: Customerlist,
   },
   {
-    path: "/notes",
-    name: "Cases",
+    path: "/machine",
+    name: "Machine",
     icon: "tag",
-    component: Customerdashboard,
-  },
-
-  {
-    path: "/todos",
-    name: "Todo",
-    icon: "edit",
-    component: Contacts,
+    component: Machinelist,
   },
   {
-    path: "/customerdetail",
+    path: "/case",
+    name: "Case",
     icon: "edit",
-    component: Customerdetail ,
+    component: Caselist ,
   },
+ 
   {
     path: "/chat",
     name: "Chat",
@@ -152,12 +162,7 @@ var ThemeRoutes = [
     icon: "phone",
     component: Contacts,
   },
-  {
-    path: "/email",
-    name: "Email",
-    icon: "inbox",
-    component: Email,
-  },
+ 
   {
     path: "/calendar",
     name: "Calendar",
@@ -165,11 +170,48 @@ var ThemeRoutes = [
     component: Calendar,
   },
   {
-    path: "/notes",
-    name: "Notes",
-    icon: "tag",
-    component: Notes,
+    path: "/customerdetail",
+    component: Customerdetail,
   },
+  {
+    path: "/addnewcustomer",
+    component: AddCustomer,
+  },
+  {
+    collapse: true,
+    path: "/form-layouts",
+    name: "Setting",
+    state: "formlayoutPages",
+    icon: "layers",
+    child: [
+      {
+        path: "/Setting/Mainpack",
+        name: "Main Pack",
+        icon: "mdi mdi-priority-low",
+        component: Mainlist,
+      },
+      {
+        path: "/Setting/Filter",
+        name: "Filter",
+        icon: "mdi mdi-rounded-corner",
+        component: Filterlist,
+      },
+      {
+        path: "/Setting/Technician",
+        name: "Technician",
+        icon: "mdi mdi-select-all",
+        component: Technicianlist,
+      },
+      {
+        path: "/Setting/Product",
+        name: "Product",
+        icon: "mdi mdi-book",
+        component: Productlist,
+      },
+    ],
+  },
+  
+ 
  
  
   {

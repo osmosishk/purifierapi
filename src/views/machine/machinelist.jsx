@@ -14,96 +14,73 @@ import {
 
 } from 'reactstrap';
 
-class Customerlist extends Component {
+class Machinelist extends Component {
     state = { 
-        customers : [],
-        redirect: null
+        machine:[]
      }
-
-    
-    async getSlavesData()
+   
+    async getMachineData()
     {
+        console.log(" Machine Listing ")
         const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getAllcustomer,{ headers: headers})
+        await axios.get(config.getAllmachine,{ headers: headers})
             .then((response) => {
               
-            this.setState({customers:response.data});
+            this.setState({machine:response.data});
         });
        
        
     }  
-    componentDidMount() {
-        localStorage.setItem('token','c3c1d72b219561cfe00084d3434f37c3714f5961')
-        this.getSlavesData();
-      
-    }
-    
-    addcustomer= event => 
-    {
-      
-        this.props.history.push({
-            pathname : "/addnewcustomer",
-            //state: { id: event.currentTarget.value }
-            
-        });
-       
-    }
 
-    editcustomer= event => 
+    editmachine()
     {
-      
-        this.props.history.push({
-            pathname : "/customerdetail",
-            state: { id: event.currentTarget.value }
-            
-        });
-       
+        console.log(" Machine Edit ")
     }
-    
- 
-    
-        render() { 
+    componentDidMount() {
+       
+        this. getMachineData()
+      
+    }
+   
+    render() { 
         return ( 
             <Card>
                 
             <CardTitle className="mb-0 p-3 border-bottom bg-light">
-                <i className="mdi mdi-border-right mr-2"></i>List of Customer
+                <i className="mdi mdi-border-right mr-2"></i>List of Machine
             </CardTitle>
-                <div className="button-group">
-                    <Button className="btn" color="warning" size="sm" onClick={this.addcustomer} >Add New Customer</Button>
-                </div>
             <CardBody>
                 <ReactTable
                     columns={[
                     
                     {
-                        Header: "Code",
-                        accessor: "customercode.username",
+                        Header: "Customer Code",
+                        accessor: "customer.customercode.username",
                         width: 100
                        
                     },
 
                     {
-                        Header: "Name",
-                        accessor: "contactname",
+                        Header: "Machine ID",
+                        accessor: "machineid",
                         width: 150
                        
                     },
                     
                     {
                         Header: "Address",
-                        accessor: "installaddress",
+                        accessor: "installaddress1",
                        
                     },
                     {
-                        Header: "Contact No.",
-                        accessor: "contactno",
+                        Header: "Install Date.",
+                        accessor: "installdate",
                         width: 100
                        
                     },
                     {
-                        Header: "mobile.",
-                        accessor: "mobile",
+                        Header: "Next Service Date",
+                        accessor: "nextservicedate",
                         width: 100
                        
                     },
@@ -114,7 +91,7 @@ class Customerlist extends Component {
                         Cell: ({ original }) => (
                             <div className="text-center">
                                <Button 
-                                onClick={this.editcustomer}
+                                onClick={this.editmachine}
                                 color="inverse"
                                 size="sm"
                                 round="true"
@@ -135,15 +112,15 @@ class Customerlist extends Component {
                     defaultPageSize={15}
                     showPaginationBottom={true}
                     className="-striped -highlight"
-                    data={this.state.customers}
+                    data={this.state.machine}
                     loading = {this.state.loading}
                     filterable
                 />
             </CardBody>
          </Card>
-        
-            );
+
+         );
     }
 }
  
-export default Customerlist;
+export default Machinelist;

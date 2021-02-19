@@ -3,7 +3,6 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import axios from "axios";
 import config from '../../config.json';
-import { Link , Redirect } from 'react-router-dom';
 
 import {
     Card,
@@ -14,99 +13,83 @@ import {
 
 } from 'reactstrap';
 
-class Customerlist extends Component {
-    state = { 
-        customers : [],
-        redirect: null
-     }
-
-    
-    async getSlavesData()
+class Mainlist extends Component {
+    state = { mainlist:[] }
+    async getTechData()
     {
         const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getAllcustomer,{ headers: headers})
+        await axios.get(config.getAllmainpack,{ headers: headers})
             .then((response) => {
               
-            this.setState({customers:response.data});
+            this.setState({mainlist:response.data});
         });
        
        
     }  
+
     componentDidMount() {
-        localStorage.setItem('token','c3c1d72b219561cfe00084d3434f37c3714f5961')
-        this.getSlavesData();
+        
+        this. getTechData();
       
-    }
-    
-    addcustomer= event => 
-    {
-      
-        this.props.history.push({
-            pathname : "/addnewcustomer",
-            //state: { id: event.currentTarget.value }
-            
-        });
-       
     }
 
-    editcustomer= event => 
-    {
-      
-        this.props.history.push({
-            pathname : "/customerdetail",
-            state: { id: event.currentTarget.value }
-            
-        });
-       
-    }
-    
- 
-    
-        render() { 
+
+    render() { 
         return ( 
             <Card>
                 
             <CardTitle className="mb-0 p-3 border-bottom bg-light">
-                <i className="mdi mdi-border-right mr-2"></i>List of Customer
+                <i className="mdi mdi-border-right mr-2"></i>List of Main Pack
             </CardTitle>
-                <div className="button-group">
-                    <Button className="btn" color="warning" size="sm" onClick={this.addcustomer} >Add New Customer</Button>
-                </div>
             <CardBody>
                 <ReactTable
                     columns={[
                     
                     {
-                        Header: "Code",
-                        accessor: "customercode.username",
+                        Header: "Package Code",
+                        accessor: "packagecode",
                         width: 100
                        
                     },
 
                     {
-                        Header: "Name",
-                        accessor: "contactname",
-                        width: 150
+                        Header: "Detail",
+                        accessor: "packagedetail",
+                        width: 400
                        
                     },
                     
                     {
-                        Header: "Address",
-                        accessor: "installaddress",
+                        Header: "Time",
+                        accessor: "isbytime",
+                        width: 100,
                        
                     },
                     {
-                        Header: "Contact No.",
-                        accessor: "contactno",
+                        Header: "Usage",
+                        accessor: "isbyusage",
                         width: 100
                        
                     },
                     {
-                        Header: "mobile.",
-                        accessor: "mobile",
+                        Header: "Price",
+                        accessor: "price",
                         width: 100
                        
                     },
+                    {
+                        Header: "Ex.Time",
+                        accessor: "exfiltermonth",
+                        width: 100
+                       
+                    },
+                    {
+                        Header: "Ex.Vol",
+                        accessor: "exfiltervolume",
+                        width: 100
+                       
+                    },
+                   
 
                     {
                         Header: "Edit",
@@ -114,7 +97,7 @@ class Customerlist extends Component {
                         Cell: ({ original }) => (
                             <div className="text-center">
                                <Button 
-                                onClick={this.editcustomer}
+                                
                                 color="inverse"
                                 size="sm"
                                 round="true"
@@ -135,15 +118,14 @@ class Customerlist extends Component {
                     defaultPageSize={15}
                     showPaginationBottom={true}
                     className="-striped -highlight"
-                    data={this.state.customers}
-                    loading = {this.state.loading}
+                    data={this.state.mainlist}
+                    
                     filterable
                 />
             </CardBody>
          </Card>
-        
-            );
+         );
     }
 }
  
-export default Customerlist;
+export default Mainlist;
