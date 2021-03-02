@@ -24,25 +24,14 @@ class AddMachine extends Component {
                   productcode: '',
                   producttype: ''}},
                 randomid :'',
-                
-
-               
-                
+                product: props.product,
+    
         }
         this.handleGenID = this.handleGenID.bind(this);
       }
-      async getProduct()
-      {
-         
-         const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-         await axios.get(config.getCaseonlyclient, {headers: headers} )
-             .then((response) => {
-               
-             this.setState({case:response.data,loading:false});
-         });
-         
-         
-      }
+ 
+
+
       componentWillMount()
       {
         var curr = new Date();
@@ -53,7 +42,8 @@ class AddMachine extends Component {
         const machinestring ={...this.state.machinestring};
         machinestring["installdate"] = curr;
         machinestring["nextservicedate"] = nextdate;
-        this.setState({machinestring})
+        this.setState({machinestring});
+        
 
      
       } 
@@ -144,12 +134,14 @@ class AddMachine extends Component {
                   <FormGroup>
                     <Label >Model : </Label>
                   
-                      <Input type="select" name="machinetype" onChange={this.handleMachineTypeChange}  >
-                          <option >Select ..</option>
-                          <option value='WPU8900CX'>WPU8900CX</option>
-                          <option value='WPU8900FX'>WPU8900FX</option>
-                          <option value='WPU8900C'>WPU8900C</option>
-                          <option value='WPU8900F'>WPU8900F</option>
+                      <Input type="select" name="machinetype" onChange={this.handleMachineTypeChange} >
+                      <option >Select ..</option>
+                      {  
+                            this.state.product.map(product => {
+                             return(
+                              <option value={product.productcode}>{product.productcode}</option>
+                            )})
+                      }
                           
                       </Input>
                       </FormGroup>                 

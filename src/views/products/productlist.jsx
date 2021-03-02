@@ -49,27 +49,22 @@ class Productlist extends Component {
                     columns={[
                     
                     {
-                        Header: "Filter Code",
-                        accessor: "filtercode",
-                        width: 100
+                        Header: "Product Code",
+                        accessor: "productcode",
+                        width: 200
                        
                     },
 
                     {
-                        Header: "Product ",
-                        accessor: "filtername",
+                        Header: "Type ",
+                        accessor: "producttype",
                         width: 150
                        
                     },
-                    
-                    {
-                        Header: "Filter Detail",
-                        accessor: "filterdetail",
-                       
-                    },
+                  
                     {
                         Header: "Price",
-                        accessor: "Price",
+                        accessor: "price",
                         width: 100
                        
                     },

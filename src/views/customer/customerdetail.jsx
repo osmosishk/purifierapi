@@ -44,6 +44,7 @@ class Customerdetail extends Component {
         customerinfo : {id :'',customercode:{username:'',email:''}, contactname: '',billingaddress: '',installaddress: '',contactno: '',mobile: '',},
         machine :[],
         case :[],
+        product:[],
         
         activeTab : '1',
         isFetching: false,
@@ -71,7 +72,18 @@ class Customerdetail extends Component {
   hideModal = () => {
     this.setState({ machineshow: false });
   };
-   
+    
+  async getProductData()
+      {
+          const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
+          await axios.get(config.getAllproduct,{ headers: headers})
+              .then((response) => {
+                
+              this.setState({product:response.data});
+          });
+         
+         
+      }  
 
 
      async getCustomer()
@@ -93,6 +105,7 @@ class Customerdetail extends Component {
             this.getCustomer();
             this.getMachine();
             this.getCase();
+            this.getProductData();
            
         
         }
@@ -131,12 +144,7 @@ class Customerdetail extends Component {
       
       
     }
-    addMachineClick= () => {
-        console.log("ADd Machine");
-        
-      
-    }
-    
+ 
     handleCustomerUpdate = event => {
       event.preventDefault();
       this.toggle.bind(null)
@@ -345,7 +353,7 @@ class Customerdetail extends Component {
                         <div className="button-group">
                         
                         <Button className="btn"  color="danger" onClick={this.showModal} >Add Water purifier</Button>
-                        <AddMachine show={this.state.machineshow} handleClose={this.hideModal} customer={this.state.customerinfo}/>
+                        <AddMachine show={this.state.machineshow} handleClose={this.hideModal} customer={this.state.customerinfo} product={this.state.product}/>
                         </div>  
                          {  
                             this.state.machine.map(machine => {
@@ -353,7 +361,7 @@ class Customerdetail extends Component {
                                  <div>
                                 
                                  <Col sm="12">
-                                         <MachineCard key={machine.id} machine={machine} />
+                                         <MachineCard key={machine.id} machine={machine} product={this.state.product}/>
                                  </Col>
                                  </div>
 

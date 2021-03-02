@@ -20,7 +20,8 @@ class MachineCard extends Component {
             fade: false ,
             oading : false,
             machineinfo : {machineid :'',installaddress1: '',installaddress2: '',mac: '',installdate: '',nextservicedate: '',},
-            testmachine : props.machine
+            testmachine : props.machine,
+            product: props.product,
     }
   }
   handleMachineChange = ({currentTarget:input}) =>{
@@ -33,7 +34,28 @@ class MachineCard extends Component {
     
   }
   
+  handleMachineTypeChange = ({currentTarget:input}) =>{
+    let statusCopy = Object.assign({}, this.state.testmachine);
+    statusCopy.machinetype["productcode"]=input.value
+    statusCopy.machinetype["producttype"]="WPU"
+    this.setState(statusCopy);
+    
+          
+   
+  }
+  async getProductData()
+      {
+          const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
+          await axios.get(config.getAllproduct,{ headers: headers})
+              .then((response) => {
+                
+              this.setState({product:response.data});
+          });
+         
+         
+      }  
   
+
   
   showMachineModal()
   {
@@ -49,11 +71,11 @@ class MachineCard extends Component {
     
     const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
     const updatemachine = JSON.stringify({...this.state.testmachine})
-   
+    console.log(updatemachine);
+
     axios.put(config.updateMachine, updatemachine , {headers: headers})
       .then(res => {
-        //this.setState({modal: !this.state.modal});
-        //this.setState({...this.state.currentaddress});
+       
         Swal.fire('Update Machine Successful')
         
       })
@@ -89,14 +111,19 @@ class MachineCard extends Component {
                   </FormGroup>
                   <FormGroup>
                     <Label >Model : </Label>
-                    <Input
-                      type="text"
-                      name="productcode"
-                      defaultValue = {machinetype.productcode}
-                      
-                      
-                    />
-                  </FormGroup>
+                  
+                      <Input type="select" name="machinetype" onChange={this.handleMachineTypeChange} defaultValue = {machinetype.productcode}>
+                      <option >Select ..</option>
+                      {  
+                            this.state.product.map(product => {
+                             return(
+                              <option value={product.productcode}>{product.productcode}</option>
+                            )})
+                      }
+                          
+                      </Input>
+                  </FormGroup>                 
+                 
                   <FormGroup>
                   <Label>Installation Address </Label>
                     <Input
