@@ -117,7 +117,7 @@ class MachineCard extends Component {
                       {  
                             this.state.product.map(product => {
                              return(
-                              <option value={product.productcode}>{product.productcode}</option>
+                              <option key ={product.productcode} value={product.productcode}>{product.productcode}</option>
                             )})
                       }
                           

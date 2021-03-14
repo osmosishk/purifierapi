@@ -26,11 +26,13 @@ import {
 import classnames from "classnames";
 import "react-table/react-table.css";
 
-import img1 from "../../assets/images/users/7.jpg";
+
 import MachineCard from '../machine/machinecard';
+
 
 import Swal from 'sweetalert2';
 import AddMachine from './../machine/addmachine';
+import AddCase from './../case/addnewcase';
 
 
 class Customerdetail extends Component {
@@ -49,11 +51,15 @@ class Customerdetail extends Component {
         activeTab : '1',
         isFetching: false,
         loading: false,
-        machineshow: false
-        
+        machineshow: false,
+        caseshow : false,
+      
      }
      this.showModal = this.showModal.bind(this);
      this.hideModal = this.hideModal.bind(this);
+
+     this.showCaseModal = this.showCaseModal.bind(this);
+     this.hideCaseModal = this.hideCaseModal.bind(this);
    }
    
    toggle(tab) {
@@ -71,6 +77,15 @@ class Customerdetail extends Component {
 
   hideModal = () => {
     this.setState({ machineshow: false });
+  };
+
+  showCaseModal = () => {
+    this.setState({ caseshow : true });
+       
+  };
+
+  hideCaseModal = () => {
+    this.setState({ caseshow : false });
   };
     
   async getProductData()
@@ -170,7 +185,7 @@ class Customerdetail extends Component {
        
         //console.log(this.state.customerinfo)
        
-        //console.log(this.state.case)
+        console.log(this.state.case)
        
 
 
@@ -261,19 +276,21 @@ class Customerdetail extends Component {
                   <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                     <CardBody>
+                    <Button className="btn"  color="primary" onClick={this.showCaseModal} >Add New Case</Button>
+                    <AddCase show={this.state.caseshow} handleClose={this.hideCaseModal} customer={this.state.customerinfo} machine={this.state.machine}/>
                 <ReactTable
                     columns={[
                     
                     {
                         Header: "ID",
                         accessor: "case_id",
-                        width: 50
+                        width: 20
                        
                     },
                     {
                         Header: " Case Type",
                         accessor: "casetype",
-                        width: 200
+                        width: 150
                        
                     },
                     {
@@ -288,6 +305,24 @@ class Customerdetail extends Component {
                         width: 100
                        
                     },
+                    {
+                      Header: "Water Purifier",
+                      
+                      width: 100,
+                      Cell: ({ original }) => (
+                        <div className="text-center">
+                           
+                        </div>
+                      ),
+                     
+                     
+                    },
+                    {
+                      Header: "By ",
+                      accessor: "handledby.staffshort",
+                      width: 50
+                     
+                  },
                     {
                         Header: "Status",
                         accessor: "iscompleted",
@@ -358,10 +393,10 @@ class Customerdetail extends Component {
                          {  
                             this.state.machine.map(machine => {
                              return(
-                                 <div>
+                                 <div key={machine.machineid}>
                                 
-                                 <Col sm="12">
-                                         <MachineCard key={machine.id} machine={machine} product={this.state.product}/>
+                                 <Col sm="12" >
+                                         <MachineCard key={machine.machineid} machine={machine} product={this.state.product}/>
                                  </Col>
                                  </div>
 

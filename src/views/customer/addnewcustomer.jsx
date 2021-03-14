@@ -34,6 +34,7 @@ class AddCustomer extends Component {
             isconfirm: false,
 			savedToCloud: false
 		};
+		this.customerinfo = {customercode:{username:'',email:''}, contactname: '',billingaddress: '',installaddress: '',contactno: '',mobile: '',};
 	}
 	
 
@@ -46,6 +47,8 @@ class AddCustomer extends Component {
 			...this.sampleStore,
 			...update,
 		}
+
+		
        
 	}
 

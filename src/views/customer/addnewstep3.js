@@ -28,11 +28,17 @@ export default class Step3 extends Component {
 		this.setState({formValues})
 	
         this.setState({invitationcode:randomstring})
+		
         var curr = new Date();
         curr = curr.toISOString().substr(0,10)
 		formValues["joindate"]= curr
 		this.setState({formValues})
         this.setState({joindate:curr})
+
+		this.props.updateStore({invitationcode:randomstring});
+		this.props.updateStore({source:'Online'});
+
+		this.props.updateStore({joindate:curr});
         
         
       }
@@ -45,7 +51,7 @@ export default class Step3 extends Component {
         let value = event.target.value;
 		formValues[name] = value;
 		this.setState({formValues})
-	
+		
 		this.props.updateStore({
 			...formValues,
 			savedToCloud: false 
@@ -83,7 +89,13 @@ export default class Step3 extends Component {
                         <div className="form-group row">
 							<label htmlFor="pphone" className="col-sm-4 col-form-label">source</label>
 							<div className="col-sm-10">
-									<Input type="text" name="source" className="form-control" defaultValue={this.state.source} placeholder="Source" onChange={this.handleChange.bind(this)} />
+									<Input type="select" name="source" className="form-control" defaultValue={this.state.source} placeholder="Source" onChange={this.handleChange.bind(this)} >
+									
+									<option value='Online'>Online</option>
+									<option value='Referral'>Referral</option>
+									<option value='Old'>Old Customer</option>
+									<option value='Phone'>Phone Call</option>
+									</Input>
 						    </div>
 						</div> 
                         <div className="form-group row">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardText, Row, Col ,CardTitle,  Button ,
+import {   Button ,
     Label,
     Input,
     Form,
@@ -104,6 +104,8 @@ class AddMachine extends Component {
               
           window.location.reload(false);          
      };
+     
+
      
 
 
