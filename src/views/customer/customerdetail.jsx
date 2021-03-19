@@ -16,7 +16,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Progress,
   Form,
   FormGroup,
   Label,
@@ -33,6 +32,7 @@ import MachineCard from '../machine/machinecard';
 import Swal from 'sweetalert2';
 import AddMachine from './../machine/addmachine';
 import AddCase from './../case/addnewcase';
+import EditCase from './../case/editcase';
 
 
 class Customerdetail extends Component {
@@ -53,6 +53,7 @@ class Customerdetail extends Component {
         loading: false,
         machineshow: false,
         caseshow : false,
+        editcaseshow : false,
       
      }
      this.showModal = this.showModal.bind(this);
@@ -86,6 +87,16 @@ class Customerdetail extends Component {
 
   hideCaseModal = () => {
     this.setState({ caseshow : false });
+  };
+
+
+  showEditCaseModal = () => {
+    this.setState({ editcaseshow : true });
+       
+  };
+
+  hideEditCaseModal = () => {
+    this.setState({ editcaseshow : false });
   };
     
   async getProductData()
@@ -180,12 +191,24 @@ class Customerdetail extends Component {
         window.location.reload(false);    
     }
 
+    showcase = event => 
+    {
+      
+       
+        this.setState({ editcaseshow : true });
+        this.setState({ caseid : event.currentTarget.value});
+     
+          
+       
+    }
+
+
     
     render() { 
        
         //console.log(this.state.customerinfo)
        
-        console.log(this.state.case)
+        //console.log(this.state.case)
        
 
 
@@ -278,6 +301,7 @@ class Customerdetail extends Component {
                     <CardBody>
                     <Button className="btn"  color="primary" onClick={this.showCaseModal} >Add New Case</Button>
                     <AddCase show={this.state.caseshow} handleClose={this.hideCaseModal} customer={this.state.customerinfo} machine={this.state.machine}/>
+                    <EditCase show={this.state.editcaseshow} handleClose={this.hideEditCaseModal} customer={this.state.customerinfo} machine={this.state.machine} casestring={this.state.case} caseid={this.state.caseid} />
                 <ReactTable
                     columns={[
                     
@@ -335,12 +359,13 @@ class Customerdetail extends Component {
                         Cell: ({ original }) => (
                             <div className="text-center">
                                <Button 
-                                //onClick={}
+                                onClick={this.showcase}
+                                
                                 color="inverse"
                                 size="sm"
                                 round="true"
                                 //icon="true"
-                                value ={original.id }
+                                value ={original.case_id }
                                 
                                 ><i className="fa fa-edit" /></Button>
                                   

@@ -12,17 +12,9 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  UncontrolledCarousel,
-  Progress,
-  ListGroup,
-  ListGroupItem,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  Input,
+ 
 } from "reactstrap";
-import * as data from "./Data";
+
 
 /*--------------------------------------------------------------------------------*/
 /* Import images which are need for the HEADER                                    */

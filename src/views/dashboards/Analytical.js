@@ -1,6 +1,5 @@
 import React from "react";
-import { Card, CardBody, Row, Col } from "reactstrap";
-import PerfectScrollbar from "react-perfect-scrollbar";
+import { Row, Col } from "reactstrap";
 import {
   
   Stats,
@@ -10,9 +9,7 @@ import {
   
 } from "../../components/dashboard";
 
-import img1 from "../../assets/images/users/1.jpg";
-import img4 from "../../assets/images/users/4.jpg";
-import img5 from "../../assets/images/users/5.jpg";
+
 
 const Analytical = () => {
   return (
