@@ -21,12 +21,7 @@ class AddCase extends Component {
         this.state ={
                
                 fade: false ,
-                customerinfo : {id :'',customercode:{username:'',email:''}},
-                machinestring : {customer :{id :'',customercode:{username:'',email:''}},machineid:'',installaddress1:'',installaddress2:'',mac:'',installdate:'',nextservicedate:'',machinetype:{
-                  productcode: '',
-                  producttype: ''}},
-                randomid :'',
-                
+               
                 selectedOption: [],
 
                 filter:[],
@@ -35,6 +30,7 @@ class AddCase extends Component {
                 handledbyselectedOption: [],
                 casetype:[],
                 casetypeselectedOption: [],
+                addcase:{machines:{machineid:''},handledby:{staffcode:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:false},
                 
     
         }
@@ -69,15 +65,10 @@ class AddCase extends Component {
       {
         var curr = new Date();
         curr = curr.toISOString().substr(0,10)
-        var nextdate = new Date();
-        nextdate.setDate(nextdate.getDate() + 183);
-        nextdate = nextdate.toISOString().substr(0,10);
-        const machinestring ={...this.state.machinestring};
-        machinestring["installdate"] = curr;
-        machinestring["nextservicedate"] = nextdate;
-        this.setState({machinestring});
-        
-
+        const addcase ={...this.state.addcase};
+        addcase["scheduledate"] = curr;
+        addcase["time"] ="10:00:00";
+        this.setState({addcase});
        
      
       } 
@@ -90,64 +81,94 @@ class AddCase extends Component {
     }
       
       handleCaseChange = ({currentTarget:input}) =>{
-        const machinestring ={...this.state.machinestring};
-        machinestring[input.name] = input.value;
-        machinestring.customer.id= this.props.customer.id;
-        machinestring.customer.customercode.username= this.props.customer.customercode.username;
-        machinestring.customer.customercode.email= this.props.customer.customercode.email;
-        this.setState({machinestring})
-        
+        const addcase ={...this.state.addcase};
+        addcase[input.name] = input.value;
+        this.setState({addcase})
+     
        
       }
 
       handleChange = selectedOption => {
-        this.setState(
-          { selectedOption },
-          () => console.log(`Option selected:`, this.state.selectedOption)
-        );
+        let addcase = Object.assign({}, this.state.addcase);
+        let machine =[]
+        for(var i=0;i<selectedOption.length;i++)
+        {
+          machine.push({machineid:selectedOption[i].value})
+        }
+        addcase.machines = machine;
+        this.setState({addcase})
+        this.setState({selectedOption})
+     
+       
       };
 
       filterhandleChange = filterselectedOption => {
-        this.setState(
-          { filterselectedOption },
-          () => console.log(`Option selected:`, this.state.filterselectedOption)
-        );
+
+        let addcase = Object.assign({}, this.state.addcase);
+        let addfilter =[]
+        for(var i=0;i<filterselectedOption.length;i++)
+        {
+          addfilter.push({filtercode:filterselectedOption[i].value})
+        }
+        addcase.filters=addfilter
+        this.setState({addcase})
+        this.setState({ filterselectedOption })
+          
       };
 
       handledbyhandleChange = handledbyselectedOption => {
-        this.setState(
-          { handledbyselectedOption },
-          () => console.log(`Option selected:`, this.state.handledbyselectedOption)
-        );
+
+       
+        let addcase = Object.assign({}, this.state.addcase);
+        addcase.handledby['staffcode']= handledbyselectedOption[0].value
+        
+        this.setState({addcase})
+        this.setState({handledbyselectedOption})
+        
       };
 
       casetypehandleChange =casetypeselectedOption => {
-        this.setState(
-          { casetypeselectedOption },
-          () => console.log(`Option selected:`, this.state.casetypeselectedOption)
-        );
+        const addcase ={...this.state.addcase};
+        addcase['casetype'] = casetypeselectedOption[0].value;
+
+        this.setState({addcase})
+        this.setState({casetypeselectedOption})
+         
       };
       
     
 
-      handleMachineadd = event => {
+      handleCaseadd = event => {
         event.preventDefault();
-        console.log(this.state.machinestring);
-        const addmachine = JSON.stringify({...this.state.machinestring})
+        
+        const addcase= JSON.stringify({...this.state.addcase})
         const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
 
-        console.log(addmachine);
-        axios.post(config.getAllmachine, addmachine,{headers: headers})
+        //console.log("JSON STRING",addcase);
+        axios.post(config.getAllCase,addcase,{headers: headers})
          .then(res => {
-            console.log(res);
-            console.log(res.data);
-            Swal.fire('Add Water purifier Successful')
+            //console.log(res);
+            //console.log(res.data);
+            Swal.fire({
+              title:'New Case Successful',
+              showDenyButton: true,
+              showCancelButton: true,
+              confirmButtonText: `Print Job Sheet`,
+              denyButtonText: `No need to Print`,
+            
+            }).then((result) => {
+              if (result.isConfirmed) {
+                Swal.fire('Saved!', '', 'success')
+              } else if (result.isDenied) {
+                window.location.reload(false);   
+              }
             })
+          })  
          .catch((error) => {
             console.log(error);
               })  
               
-          window.location.reload(false);          
+       //   window.location.reload(false);          
      };
      
      
@@ -218,6 +239,7 @@ class AddCase extends Component {
                             onChange={this.casetypehandleChange}
                             labelledBy={"Select Case Type.."}
                             styles={ReactSelectStyles()}
+                            hasSelectAll={false}
                           />  
                       </FormGroup>
                     </Col> 
@@ -245,6 +267,7 @@ class AddCase extends Component {
                         onChange={this.handledbyhandleChange}
                         labelledBy={"Select techanican"}
                         styles={ReactSelectStyles()}
+                        hasSelectAll={false}
                       />  
                   </FormGroup>
                   </Col> 
@@ -253,9 +276,9 @@ class AddCase extends Component {
                   <Label>Schedule Date </Label>
                     <Input
                       type="date"
-                      name="nextservicedate"
+                      name="scheduledate"
                       onChange={this.handleCaseChange} 
-                      defaultValue={this.state.machinestring.installdate}
+                      defaultValue={this.state.addcase.scheduledate}
                     />
                   </FormGroup>
                   </Col>   
@@ -266,9 +289,9 @@ class AddCase extends Component {
                   <Label>Schedule Time </Label>
                     <Input
                       type="time"
-                      name="nextservicedate"
+                      name="time"
                       onChange={this.handleCaseChange} 
-                      defaultValue={this.state.machinestring.installdate}
+                      defaultValue={this.state.addcase.time}
                     />
                   </FormGroup>
                   </Col> 
@@ -290,7 +313,7 @@ class AddCase extends Component {
                   <Label>Suggestion  </Label>
                     <Input
                       type="textarea"
-                      name="suggestion"
+                      name="suggest"
                       onChange={this.handleCaseChange} 
                       
                     />
@@ -312,7 +335,7 @@ class AddCase extends Component {
               
                   <FormGroup>
                     <div className="button-group">
-                    <Button className="btn"  color="success"onClick={this.handleMachineadd} >Add</Button>
+                    <Button className="btn"  color="success"onClick={this.handleCaseadd} >Add</Button>
                     <Button className="btn"  color="danger" onClick={this.props.handleClose}>Cancel</Button>
                     </div>  
                   </FormGroup>

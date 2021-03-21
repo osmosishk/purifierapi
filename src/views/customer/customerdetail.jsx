@@ -254,7 +254,10 @@ class Customerdetail extends Component {
                         allowfullscreen
                        />
                         </div>
-                     
+                        <div className="button-group">
+                          <Button className="btn"  color="primary" onClick={this.showCaseModal} >Print QR Code</Button>
+                        </div>
+                        
                     </div>
                   </CardBody>
                 </Card>
@@ -301,7 +304,7 @@ class Customerdetail extends Component {
                     <CardBody>
                     <Button className="btn"  color="primary" onClick={this.showCaseModal} >Add New Case</Button>
                     <AddCase show={this.state.caseshow} handleClose={this.hideCaseModal} customer={this.state.customerinfo} machine={this.state.machine}/>
-                    <EditCase show={this.state.editcaseshow} handleClose={this.hideEditCaseModal} customer={this.state.customerinfo} machine={this.state.machine} casestring={this.state.case} caseid={this.state.caseid} />
+                    <EditCase show={this.state.editcaseshow} handleClose={this.hideEditCaseModal} customer={this.state.customerinfo} machine={this.state.machine}  caseid={this.state.caseid} casestring={this.state.case} />
                 <ReactTable
                     columns={[
                     
