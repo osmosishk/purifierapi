@@ -37,6 +37,7 @@ class EditCase extends Component {
                 casetype:[],
                 casetypeselectedOption: [],
                 selectedcaseid : props.caseid,
+                
 
                 editcase:{case_id:'', machines:{machineid:''},handledby:{staffcode:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:false},
               
@@ -94,6 +95,7 @@ class EditCase extends Component {
       {
         this.getFilterData();
         this.getTechData();
+      
         
       }
 
@@ -111,40 +113,55 @@ class EditCase extends Component {
       }
 
       handleChange = selectedOption => {
-        this.setState(
-          { selectedOption },
-          () => console.log(`Option selected:`, this.state.selectedOption)
-        );
+        let editcase = Object.assign({}, this.state.editcase);
+        let machine =[]
+        for(var i=0;i<selectedOption.length;i++)
+        {
+          machine.push({machineid:selectedOption[i].value})
+        }
+        editcase.machines = machine;
+        this.setState({editcase})
+        this.setState({selectedOption})
       };
 
       filterhandleChange = filterselectedOption => {
-        this.setState(
-          { filterselectedOption },
-          () => console.log(`Option selected:`, this.state.filterselectedOption)
-        );
+
+        let editcase = Object.assign({}, this.state.editcase);
+        let editfilter =[]
+        for(var i=0;i<filterselectedOption.length;i++){
+          editfilter.push({filtercode:filterselectedOption[i].value})
+        }
+        editcase.filters= editfilter
+        this.setState({editcase})
+        
+        this.setState({filterselectedOption });
+
+
       };
 
       handledbyhandleChange = handledbyselectedOption => {
-        this.setState(
-          { handledbyselectedOption },
-          () => console.log(`Option selected:`, this.state.handledbyselectedOption)
-        );
+        let editcase = Object.assign({}, this.state.editcase);
+        editcase.handledby['staffcode']= handledbyselectedOption[0].value
+        
+        this.setState({editcase})
+        this.setState({handledbyselectedOption})
       };
 
       casetypehandleChange =casetypeselectedOption => {
-        this.setState(
-          { casetypeselectedOption },
-          () => console.log(`Option selected:`, this.state.casetypeselectedOption)
-        );
+        const editcase ={...this.state.editcase};
+        editcase['casetype'] = casetypeselectedOption[0].value;
+
+        this.setState({editcase})
+        this.setState({casetypeselectedOption})
       };
       
-    
+      
 
-      static getDerivedStateFromProps(props, state) {
-        
-        const singlecase = props.casestring.filter(c=>c.case_id==props.caseid)
-        const editcase = state.editcase
-        editcase['case_id']=props.caseid
+      componentDidUpdate(prevProps, prevState) {
+        if(prevProps.caseid  !== this.state.selectedcaseid){
+        const singlecase = this.props.casestring.filter(c=>c.case_id==this.props.caseid)
+        const editcase = this.state.editcase
+        editcase['case_id']=this.props.caseid
         editcase['scheduledate']=singlecase.map(s=>s.scheduledate)[0]
         editcase['time']=singlecase.map(s=>s.time)[0]
         editcase['suggest']=singlecase.map(s=>s.suggest)[0]
@@ -154,8 +171,13 @@ class EditCase extends Component {
         editcase['machines']=singlecase.map(s=>s.machines)[0]
         editcase['filters']=singlecase.map(s=>s.filters)[0]
         editcase['handledby']=singlecase.map(s=>s.handledby)[0]
-          
-          
+        this.setState({editcase})
+        }
+      }
+
+      static getDerivedStateFromProps(props, state) {
+        
+        
         let value1 = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.handledby.staffcode)
         let label1 = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.handledby.staffname)
         let value2 = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.casetype)
@@ -386,7 +408,7 @@ class EditCase extends Component {
                   <Label>Schedule Date </Label>
                     <Input
                       type="date"
-                      name="nextservicedate"
+                      name="scheduledate"
                       onChange={this.handleCaseChange} 
                       defaultValue={singlecase.map(s=>s.scheduledate)}
                     />
@@ -399,7 +421,7 @@ class EditCase extends Component {
                   <Label>Schedule Time </Label>
                     <Input
                       type="time"
-                      name="nextservicedate"
+                      name="time"
                       onChange={this.handleCaseChange} 
                       defaultValue={singlecase.map(s=>s.time)}
                     />
@@ -424,7 +446,7 @@ class EditCase extends Component {
                   <Label>Suggestion  </Label>
                     <Input
                       type="textarea"
-                      name="suggestion"
+                      name="suggest"
                       onChange={this.handleCaseChange} 
                       defaultValue={singlecase.map(s=>s.suggestion)}
                     />
@@ -452,7 +474,7 @@ class EditCase extends Component {
                     </div>  
                   </FormGroup>
                 </Form>
-                
+                 
                 
               </ModalBody>
                   
