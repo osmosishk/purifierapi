@@ -77,19 +77,47 @@ class MachineCard extends Component {
       .then(res => {
        
         Swal.fire('Update Machine Successful')
+        window.location.reload(false);   
         
       })
       .catch((error) => {console.log(error);})  
     
-    window.location.reload(false);    
+     
   }
 
-  deleteMachine()
-  {
-    console.log("Del MAchine")
+  deleteMachine() {
+    
+    const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
+      Swal.fire({
+        title: 'Are you sure to delete this Water Purifier?',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: `Delete`,
+        denyButtonText: `Cancel`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          axios.delete(config.getAllmachine+this.props.machine.id+'/',{headers: headers})
+          .then(res => {
+            console.log(res);
+            console.log(res.data);
+            Swal.fire('Delete', '', 'success')
+            window.location.reload(false);    
+            })
+         .catch((error) => {
+            console.log(error);
+             })  
+          
+        } else if (result.isDenied) {
+          Swal.fire('Water purifier is kept', '', 'info')
+          window.location.reload(false);    
+        }
+      })
+
   }
+
   render () {
-    let { machineid,installaddress1,installaddress2,installdate,nextservicedate , mac ,machinetype} = this.props.machine;
+    let { id,machineid,installaddress1,installaddress2,installdate,nextservicedate , mac ,machinetype} = this.props.machine;
    
     
     return (
@@ -186,6 +214,7 @@ class MachineCard extends Component {
               </Modal>
 
               <Card body outline color="success" className="border">
+                    <CardTitle>ID : {id}</CardTitle>
                     <CardTitle>Machine ID : {machineid}</CardTitle>
                     <CardText>Model : {machinetype.productcode}</CardText>
                     <CardText>Installation Address  :{installaddress1}</CardText>

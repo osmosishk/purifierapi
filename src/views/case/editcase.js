@@ -217,7 +217,7 @@ class EditCase extends Component {
         const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
 
         console.log("JOSN" ,editcase);
-        //axios.post(config.getAllmachine, addmachine,{headers: headers})
+        //axios.post(config.updateCase, editcase,{headers: headers})
          //.then(res => {
          //   console.log(res);
          //   console.log(res.data);
@@ -230,6 +230,39 @@ class EditCase extends Component {
          // window.location.reload(false);          
      };
      
+
+     handleCaseDelete = event => {
+      event.preventDefault();
+      
+      const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
+      Swal.fire({
+        title: 'Are you sure to delete Cases?',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: `Delete`,
+        denyButtonText: `Cancel`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          axios.delete(config.getAllCase+this.props.caseid+'/',{headers: headers})
+          .then(res => {
+            console.log(res);
+            console.log(res.data);
+            Swal.fire('Delete', '', 'success')
+            window.location.reload(false);    
+            })
+         .catch((error) => {
+            console.log(error);
+             })  
+          
+        } else if (result.isDenied) {
+          Swal.fire('Case is kept', '', 'info')
+        }
+      })
+      
+        
+              
+   };
      
 
       
@@ -414,7 +447,7 @@ class EditCase extends Component {
                   <FormGroup>
                     <div className="button-group">
                     <Button className="btn"  color="success"onClick={this.handleCaseUpdate} >Update</Button>
-                    <Button className="btn"  color="danger" onClick={this.props.handleClose}>Delete </Button>
+                    <Button className="btn"  color="danger" onClick={this.handleCaseDelete}>Delete </Button>
                     <Button className="btn"  color="danger" onClick={this.props.handleClose}>Cancel</Button>
                     </div>  
                   </FormGroup>
