@@ -39,7 +39,7 @@ class EditCase extends Component {
                 selectedcaseid : props.caseid,
                 
 
-                editcase:{case_id:'', machines:{machineid:''},handledby:{staffcode:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:false},
+                editcase:{case_id:'', machines:{machineid:''},handledby:{staffcode:'',staffname:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:false},
               
                 
 
@@ -142,8 +142,9 @@ class EditCase extends Component {
       handledbyhandleChange = handledbyselectedOption => {
         let editcase = Object.assign({}, this.state.editcase);
         editcase.handledby['staffcode']= handledbyselectedOption[0].value
+        editcase.handledby['staffname']= handledbyselectedOption[0].label
         
-        this.setState({editcase})
+        this.setState({editcase} )
         this.setState({handledbyselectedOption})
       };
 
@@ -177,7 +178,7 @@ class EditCase extends Component {
 
       static getDerivedStateFromProps(props, state) {
         
-        
+        const singlecase = props.casestring.filter(c=>c.case_id==props.caseid)
         let value1 = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.handledby.staffcode)
         let label1 = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.handledby.staffname)
         let value2 = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.casetype)
@@ -221,7 +222,8 @@ class EditCase extends Component {
             handledbyselectedOption: samplestring,
             casetypeselectedOption:samplestring1,
             filterselectedOption: filterstring,
-            selectedOption: machinestring
+            selectedOption: machinestring,
+            case:singlecase
           };
         }
         
@@ -234,22 +236,23 @@ class EditCase extends Component {
 
       handleCaseUpdate = event => {
         event.preventDefault();
-        console.log("STATE ",this.state.editcase);
+        
         const editcase = JSON.stringify({...this.state.editcase})
         const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
 
         console.log("JOSN" ,editcase);
-        //axios.post(config.updateCase, editcase,{headers: headers})
-         //.then(res => {
-         //   console.log(res);
-         //   console.log(res.data);
-         //   Swal.fire('Edit Case Successful')
-         //   })
-         //.catch((error) => {
-         //   console.log(error);
-         //     })  
+        axios.put(config.updateCase, editcase,{headers: headers})
+        .then(res => {
+           console.log(res);
+           console.log(res.data);
+           Swal.fire('Edit Case Successful')
+           window.location.reload(false);   
+           })
+        .catch((error) => {
+           console.log(error);
+             })  
               
-         // window.location.reload(false);          
+                
      };
      
 
@@ -316,7 +319,7 @@ class EditCase extends Component {
                   
      
         //console.log(`Render handledy selection :`,this.state.handledbyselectedOption)
-        const singlecase = this.props.casestring.filter(c=>c.case_id==this.props.caseid)
+       
         //console.log(singlecase.map(s=>s.handledby.staffcode))
         
        
@@ -369,7 +372,7 @@ class EditCase extends Component {
                             onChange={this.casetypehandleChange}
                             labelledBy={"Select Case Type.."}
                             styles={ReactSelectStyles()}
-                            defaultValue={singlecase.map(s=>s.casetype)}
+                            //defaultValue={singlecase.map(s=>s.casetype)}
                             hasSelectAll={false}
                           />  
                       </FormGroup>
@@ -410,7 +413,7 @@ class EditCase extends Component {
                       type="date"
                       name="scheduledate"
                       onChange={this.handleCaseChange} 
-                      defaultValue={singlecase.map(s=>s.scheduledate)}
+                      defaultValue={this.state.case.map(s=>s.scheduledate)}
                     />
                   </FormGroup>
                   </Col>   
@@ -423,7 +426,7 @@ class EditCase extends Component {
                       type="time"
                       name="time"
                       onChange={this.handleCaseChange} 
-                      defaultValue={singlecase.map(s=>s.time)}
+                      defaultValue={this.state.case.map(s=>s.time)}
                     />
                   </FormGroup>
                   </Col> 
@@ -434,7 +437,7 @@ class EditCase extends Component {
                       type="textarea"
                       name="action"
                       onChange={this.handleCaseChange} 
-                      defaultValue={singlecase.map(s=>s.action)}
+                      defaultValue={this.state.case.map(s=>s.action)}
                       
                     />
                   </FormGroup>
@@ -448,7 +451,7 @@ class EditCase extends Component {
                       type="textarea"
                       name="suggest"
                       onChange={this.handleCaseChange} 
-                      defaultValue={singlecase.map(s=>s.suggestion)}
+                      defaultValue={this.state.case.map(s=>s.suggest)}
                     />
                   </FormGroup>
                   </Col> 
@@ -459,7 +462,7 @@ class EditCase extends Component {
                       type="textarea"
                       name="comment"
                       onChange={this.handleCaseChange} 
-                      defaultValue={singlecase.map(s=>s.comment)}
+                      defaultValue={this.state.case.map(s=>s.comment)}
                     />
                   </FormGroup>
                   </Col>   

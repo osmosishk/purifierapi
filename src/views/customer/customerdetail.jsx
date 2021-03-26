@@ -358,7 +358,7 @@ class Customerdetail extends Component {
                     },
                     {
                         Header: "Detail",
-                        width: 100,
+                        width: 50,
                         Cell: ({ original }) => (
                             <div className="text-center">
                                <Button 
@@ -379,7 +379,7 @@ class Customerdetail extends Component {
                     },
                     {
                         Header: "Mark as Com",
-                        width: 100,
+                        width: 50,
                         Cell: ({ original }) => (
                             <div className="text-center">
                                <Button 

@@ -67,6 +67,24 @@ class Caselist extends Component {
                         width: 100
                        
                     },
+                    {
+                        Header: "Type",
+                        accessor: "casetype",
+                        width: 100
+                       
+                    },
+                    {
+                        Header: "Date",
+                        accessor: "scheduledate",
+                        width: 100
+                       
+                    },
+                    {
+                        Header: "Time",
+                        accessor: "time",
+                        width: 100
+                       
+                    },
 
                     
 

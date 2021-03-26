@@ -8,13 +8,28 @@ import {
     Card,
     CardBody,
     CardTitle,
-    Button
+    Button,
+    Label,
+  Input,
+  Form,
+  FormGroup,
+  Modal,
+  ModalHeader,
+  ModalBody} from 'reactstrap';
     
 
-} from 'reactstrap';
-
 class Technicianlist extends Component {
-    state = { technician:[]  }
+    constructor(props)
+    {
+        super(props);
+        
+        this.state = { technician:[],
+                    modal: false,
+                    fade: false ,
+                    
+                    techid:null,
+        }
+    }
 
 
 
@@ -36,10 +51,63 @@ class Technicianlist extends Component {
       
     }
 
+    showModel = event => 
+    {
+      
+       
+        this.setState({ modal : true });
+        this.setState({ techid : event.currentTarget.value});
+     
+          
+       
+    }
+    disableshow(){
+        this.setState({ modal : false });
+    }
+
 
     render() { 
         return ( 
-            <Card>
+            <div>
+                 <Modal isOpen={this.state.modal} fade={this.state.fade } >
+              <ModalHeader toggle={this.toggle}>Product </ModalHeader>
+              <ModalBody>
+                <Form>
+                  <Input type="hidden" name="start_registers_address" id="start_registers_address"  />
+                  <FormGroup>
+                    <Label> Techanican </Label>
+                    <Input
+                      type="text"
+                      name="machineid"
+                     // defaultValue = {machineid}
+                      
+                      
+                    />
+                  </FormGroup>
+                    
+                 
+           
+                  
+                
+              
+                  <FormGroup>
+                    <div className="button-group">
+                    <Button
+                      color="secondary"
+                      className="ml-1"
+                      onClick={this.handleMachineUpdate}
+                    >
+                      Save 
+                    </Button>
+                    <Button color="primary" onClick={() => this.disableshow()} >
+                      Cancel
+                    </Button>
+                    </div>  
+                  </FormGroup>
+                </Form>
+              </ModalBody>
+              </Modal>
+              <Card>
                 
             <CardTitle className="mb-0 p-3 border-bottom bg-light">
                 <i className="mdi mdi-border-right mr-2"></i>List of  Technician
@@ -115,6 +183,10 @@ class Technicianlist extends Component {
                 />
             </CardBody>
          </Card>
+
+
+            </div>
+            
          );
     }
 }
