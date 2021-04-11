@@ -11,6 +11,7 @@ import { Card, CardText, Row, Col ,CardTitle,  Button ,
 import Swal from 'sweetalert2';
 import axios from "axios";
 import config from '../../config.json';
+import QRCode from "qrcode.react";
 
 class MachineCard extends Component {
   constructor(props) {
@@ -225,6 +226,15 @@ class MachineCard extends Component {
                         <div className="button-group">
                           <Button className="btn"  color="success" onClick={() => this.showMachineModal()}>Edit</Button>
                           <Button className="btn"  color="danger" onClick={() => this.deleteMachine()}>Delete</Button>
+                          <QRCode
+                          value={machineid}
+                          renderAs="svg"
+                          level="H"
+                          size="50"
+                          fgColor="#333"
+                          bgColor="#fff"
+                          
+                        />
                         </div>  
                     </Col>
                 </Card>

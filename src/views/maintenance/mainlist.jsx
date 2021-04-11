@@ -3,7 +3,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import axios from "axios";
 import config from '../../config.json';
-
+import Swal from 'sweetalert2';
 import {
     Card,
     CardBody,
@@ -28,6 +28,7 @@ class Mainlist extends Component {
                     fade: false ,
                     
                     mainid:null,
+                    selectedmain:[],
         }
     }
     async getTechData()
@@ -48,12 +49,23 @@ class Mainlist extends Component {
       
     }
 
+    edittechchange = ({currentTarget:input}) =>{
+        const selectedmain ={...this.state.selectedmain};
+        selectedmain[input.name] = input.value;
+        this.setState({selectedmain})
+       
+      }
+
     showModel = event => 
     {
       
        
         this.setState({ modal : true });
         this.setState({ mainid : event.currentTarget.value});
+        const selectedmain=this.state.mainlist.filter(p=>p.packagecode ==event.currentTarget.value)[0]
+        
+
+        this.setState({selectedmain})
      
           
        
@@ -62,6 +74,23 @@ class Mainlist extends Component {
         this.setState({ modal : false });
     }
 
+     handleMainUpdate = event => {
+      event.preventDefault();
+      
+      const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
+      const updatemain = JSON.stringify({...this.state.selectedmain})
+      console.log(updatemain)
+  
+      axios.put(config.updateMain, updatemain , {headers: headers})
+        .then(res => {
+         
+          Swal.fire('Update Tech Successful')
+           window.location.reload(false);   
+          
+       })
+       .catch((error) => {console.log(error);})  
+      
+    }
     
 
 
@@ -70,20 +99,72 @@ class Mainlist extends Component {
 
             <div>
                     <Modal isOpen={this.state.modal} fade={this.state.fade } >
-              <ModalHeader toggle={this.toggle}>Product </ModalHeader>
+              <ModalHeader toggle={this.toggle}>Main Pack</ModalHeader>
               <ModalBody>
                 <Form>
                   <Input type="hidden" name="start_registers_address" id="start_registers_address"  />
                   <FormGroup>
-                    <Label> Mainetain </Label>
+                    <Label> Package Code</Label>
                     <Input
                       type="text"
-                      name="machineid"
-                     // defaultValue = {machineid}
+                      name="packagecode"
+                      defaultValue = {this.state.mainlist.filter(m=>m.packagecode ==this.state.mainid).map(s=>s.packagecode)}
+                      onChange={this.edittechchange}
                       
                       
                     />
                   </FormGroup>
+
+                  <FormGroup>
+                    <Label>Price</Label>
+                    <Input
+                      type="text"
+                      name="price"
+                      defaultValue = {this.state.mainlist.filter(m=>m.packagecode ==this.state.mainid).map(s=>s.price)}
+                      onChange={this.edittechchange}
+                      
+                      
+                    />
+                  </FormGroup>
+
+                  <FormGroup>
+                    <Label> exfiltermonth</Label>
+                    <Input
+                      type="text"
+                      name="exfiltermonth"
+                      defaultValue = {this.state.mainlist.filter(m=>m.packagecode ==this.state.mainid).map(s=>s.exfiltermonth)}
+                      onChange={this.edittechchange}
+                      
+                      
+                    />
+                  </FormGroup>
+
+                  <FormGroup>
+                    <Label> exfiltervolume</Label>
+                    <Input
+                      type="text"
+                      name="exfiltervolume"
+                      defaultValue = {this.state.mainlist.filter(m=>m.packagecode ==this.state.mainid).map(s=>s.exfiltervolume)}
+                      onChange={this.edittechchange}
+                      
+                      
+                    />
+                  </FormGroup>
+
+                  
+                  <FormGroup>
+                    <Label> Package Detail</Label>
+                    <Input
+                      type="text"
+                      name="packagedetail"
+                      defaultValue = {this.state.mainlist.filter(m=>m.packagecode ==this.state.mainid).map(s=>s.packagedetail)}
+                      onChange={this.edittechchange}
+                      
+                      
+                    />
+                  </FormGroup>
+                    
+                    
                     
                  
            
@@ -95,7 +176,7 @@ class Mainlist extends Component {
                     <Button
                       color="secondary"
                       className="ml-1"
-                      onClick={this.handleMachineUpdate}
+                      onClick={this.handleMainUpdate}
                     >
                       Save 
                     </Button>
@@ -168,12 +249,12 @@ class Mainlist extends Component {
                             Cell: ({ original }) => (
                                 <div className="text-center">
                                    <Button 
-                                    
+                                     onClick={this.showModel}
                                     color="inverse"
                                     size="sm"
                                     round="true"
                                     //icon="true"
-                                    value ={original.id }
+                                    value ={original.packagecode }
                                     
                                     ><i className="fa fa-edit" /></Button>
                                       

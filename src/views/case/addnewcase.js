@@ -171,6 +171,16 @@ class AddCase extends Component {
        //   window.location.reload(false);          
      };
      
+     handlePrint = event => {
+    
+
+      this.props.history.push({
+        pathname : "/printjob",
+        state: {customercode: this.props.customer.customercode.username }
+        
+       });
+
+     }; 
      
 
       
@@ -336,6 +346,7 @@ class AddCase extends Component {
                   <FormGroup>
                     <div className="button-group">
                     <Button className="btn"  color="success"onClick={this.handleCaseadd} >Add</Button>
+                    <Button className="btn"  color="danger" onClick={this.handlePrint}>Print and Save</Button>
                     <Button className="btn"  color="danger" onClick={this.props.handleClose}>Cancel</Button>
                     </div>  
                   </FormGroup>

@@ -13,7 +13,8 @@ import Swal from 'sweetalert2';
 import axios from "axios";
 import config from '../../config.json';
 import MultiSelect from "react-multi-select-component";
-
+import { useHistory } from "react-router-dom"
+import Workorder from "../../pdf/workorder";
 
 class EditCase extends Component {
     constructor(props) {
@@ -254,10 +255,23 @@ class EditCase extends Component {
               
                 
      };
+
+     handleCasePrint = event => {
+      let history = useHistory();
+      
+      history.push({
+        pathname : "/printjob",
+        state: {customercode: this.props.customer.customercode.username }
+        
+       });
+
+     }; 
+     
      
 
      handleCaseDelete = event => {
       event.preventDefault();
+      
       
       const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
       Swal.fire({
@@ -473,6 +487,7 @@ class EditCase extends Component {
                     <div className="button-group">
                     <Button className="btn"  color="success"onClick={this.handleCaseUpdate} >Update</Button>
                     <Button className="btn"  color="danger" onClick={this.handleCaseDelete}>Delete </Button>
+                    <Button className="btn"  color="danger" onClick={this.handleCasePrint}>Print  </Button>
                     <Button className="btn"  color="danger" onClick={this.props.handleClose}>Cancel</Button>
                     </div>  
                   </FormGroup>

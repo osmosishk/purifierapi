@@ -30,7 +30,8 @@ const Productlist =lazy(() => import("../views/products/productlist"));
 const Technicianlist =lazy(() => import("../views/technician/technicianlist"));
 const Mainlist =lazy(() => import("../views/maintenance/mainlist"));
 
-
+const PrintQR=lazy(() => import("../pdf/test"));
+const PrintJOB=lazy(() => import("../pdf/workorder"));
 
 
 const Alerts = lazy(() => import("../views/ui-components/Alert"));
@@ -176,6 +177,14 @@ var ThemeRoutes = [
   {
     path: "/addnewcustomer",
     component: AddCustomer,
+  },
+  {
+    path: "/printqr",
+    component: PrintQR,
+  },
+  {
+    path: "/printjob",
+    component: PrintJOB,
   },
   {
     collapse: true,

@@ -3,7 +3,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import axios from "axios";
 import config from '../../config.json';
-
+import Swal from 'sweetalert2';
 import {
     Card,
     CardBody,
@@ -29,7 +29,7 @@ class Productlist extends Component {
                     fade: false ,
                     
                     productid:null,
-                    selectedproduct:{producecode:'',producttype:'',price:''},
+                    selectedproduct:[],
         }
     }
     
@@ -66,8 +66,11 @@ class Productlist extends Component {
        
         this.setState({ modal : true });
         this.setState({ productid : event.currentTarget.value });
-        const selectedproduct = this.state.product.filter(p=>p.productcode ==this.state.productid)
-        this.setState({selectedproduct})  
+        const selectedproduct=this.state.product.filter(p=>p.productcode ==event.currentTarget.value)[0]
+        
+
+        this.setState({selectedproduct})
+         
        
     }
     disableshow(){
@@ -79,16 +82,16 @@ class Productlist extends Component {
       
       const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
       const updateproduct = JSON.stringify({...this.state.selectedproduct})
-      console.log(updateproduct);
+     
   
-      //axios.put(config.updateMachine, updatemachine , {headers: headers})
-      //  .then(res => {
-      //   
-      //    Swal.fire('Update Machine Successful')
-       //   window.location.reload(false);   
+      axios.put(config.updateProduct, updateproduct , {headers: headers})
+        .then(res => {
+         
+          Swal.fire('Update Product Successful')
+           window.location.reload(false);   
           
-       // })
-      //  .catch((error) => {console.log(error);})  
+       })
+       .catch((error) => {console.log(error);})  
       
        
     }

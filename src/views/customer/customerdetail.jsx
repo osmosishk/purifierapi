@@ -34,6 +34,8 @@ import AddMachine from './../machine/addmachine';
 import AddCase from './../case/addnewcase';
 import EditCase from './../case/editcase';
 
+import QRCode from "qrcode.react";
+
 
 class Customerdetail extends Component {
    
@@ -98,6 +100,8 @@ class Customerdetail extends Component {
   hideEditCaseModal = () => {
     this.setState({ editcaseshow : false });
   };
+
+  
     
   async getProductData()
       {
@@ -202,6 +206,31 @@ class Customerdetail extends Component {
        
     }
 
+    printqr = event => 
+    {
+      
+        this.props.history.push({
+            pathname : "/printqr",
+            state: {customercode: event.currentTarget.value }
+            
+        });
+       
+    }
+
+    printjob = event => 
+    {
+      
+        this.props.history.push({
+            pathname : "/printjob",
+            state: {customercode: event.currentTarget.value }
+            
+        });
+       
+    }
+
+
+    
+
 
     
     render() { 
@@ -223,6 +252,15 @@ class Customerdetail extends Component {
                   <CardBody>
                     <div className="text-center mt-4">
                     <CardSubtitle>{this.state.customerinfo.id}</CardSubtitle>
+                    <QRCode
+                          value={this.state.customerinfo.customercode.username}
+                          renderAs="svg"
+                          level="H"
+                          size="50"
+                          fgColor="#333"
+                          bgColor="#fff"
+                          key={this.state.customerinfo.customercode.username}
+                        />
                     <CardTitle className="mt-2">Customer Code: {this.state.customerinfo.customercode.username}</CardTitle>
                       
                       <CardTitle className="mt-2">Contact : {this.state.customerinfo.contactname}</CardTitle>
@@ -255,7 +293,9 @@ class Customerdetail extends Component {
                        />
                         </div>
                         <div className="button-group">
-                          <Button className="btn"  color="primary" onClick={this.showCaseModal} >Print QR Code</Button>
+                          <Button className="btn"  color="primary" onClick={this.printqr} value={this.state.customerinfo.customercode.username} >Print QR Code</Button>
+                          <Button className="btn"  color="primary" onClick={this.printjob} value={this.state.customerinfo.customercode.username} >Print Job </Button>
+                         
                         </div>
                         
                     </div>
