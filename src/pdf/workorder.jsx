@@ -22,7 +22,7 @@ class workorder extends Component {
            
            const imgData = canvas.toDataURL('image/jpeg', 1.0);
            const pdf = new jsPDF('l', 'mm', 'a4');;
-           pdf.addImage(imgData, 'PNG', 0, 0);
+           pdf.addImage(imgData, 'JPEG', 0, 0);
 
           // var iframe = document.createElement('iframe');
 	      // iframe.setAttribute('style','position:absolute;right:0; top:0; bottom:0; height:100%; width:650px; padding:20px;');
@@ -59,7 +59,7 @@ class workorder extends Component {
                     <tbody>   
                         <tr>
                             <th><div className="invoice-box">
-                                <table cellPadding="0" cellSpacing="0">
+                                <table cellPadding="0" cellSpacing="0"  width="400">
                                 <tbody>
                                     <tr className="top">
                                         <td colSpan="2">
@@ -68,15 +68,15 @@ class workorder extends Component {
                                                 <tr>
                                                     <td className="title">
 
-                                                        <img src="https://www.osmosis.com.hk/wp-content/uploads/2017/10/new_logo_straight_s.png" width ="40" height="8" alt="Osmosis"/><br/>
+                                                        <img src="https://www.osmosis.com.hk/wp-content/uploads/2017/10/new_logo_straight_s.png" width ="130" height="24" alt="Osmosis"/><br/>
                                                         Company copy
                                                     </td>
 
                                                     <td>
-                                                        Service Report No. #: <br/>
-                                                        Date : <br/>
+                                                        Service Report No. #:4324324324 <br/>
+                                                        Date :24 JUN 2021 <br/>
                                                         Time :  to <br/>
-                                                        Serviced by: <br/>
+                                                        Serviced by: HELLO <br/>
                                                     </td>
                                                 </tr>
                                             </tbody>    
@@ -91,10 +91,10 @@ class workorder extends Component {
                                                 <tr>
 
                                                     <td>
-                                                        Name:   <br/>
-                                                        Contact : <br/>
-                                                        Tel : <br/>
-                                                        Address :   /<br/>
+                                                        Name: XXXXXX  <br/>
+                                                        Contact : fdsf <br/>
+                                                        Tel : fsdfdsfdsf<br/>
+                                                        Address :  fdsfdsfdsf /<br/>
                                                         Customer Code : {this.state.customercode}
                                                     </td>
 
@@ -109,7 +109,7 @@ class workorder extends Component {
                                     </tr>
 
                                     <tr className="heading">
-                                        <td width="500">
+                                        <td width="400">
                                             Machine Model
                                         </td>
 
@@ -120,14 +120,8 @@ class workorder extends Component {
 
                                     <tr className="details">
 
-                                    <td>
-                                        
-
-                                        </td>
-
-                                        <td>
-                                            
-                                        </td>
+                                    <td>WPU890CX</td>
+                                    <td>30 JUN 2021</td>
                                     </tr>
 
                                     <tr className="heading">
@@ -146,7 +140,7 @@ class workorder extends Component {
                                         </td>
 
                                         <td>
-                                        
+                                            Filter Replacement
                                         </td>
                                     </tr>
 
@@ -156,7 +150,7 @@ class workorder extends Component {
                                         </td>
 
                                         <td>
-
+                                                N/A
                                         </td>
                                     </tr>
                                     <tr className="item">
@@ -165,16 +159,16 @@ class workorder extends Component {
                                         </td>
 
                                         <td>
-
+                                        N/A
                                         </td>
                                     </tr>
                                     <tr className="heading">
-                                        <td width="500">
-                                        Company Copy
+                                        <td width="400">
+                                        Next Service Date
                                         </td>
 
                                         <td >
-                                            Date : 
+                                            Date : JUL 2021
                                         </td>
                                     </tr>
 
@@ -206,155 +200,9 @@ class workorder extends Component {
                             </th>
 
 
-                            <th>
-                                <div className="invoice-box">
-                                <table cellPadding="0" cellSpacing="0">
-                                <tbody>
-                                    <tr className="top">
-                                        <td colSpan="2">
-                                            <table>
-                                            <tbody> 
-                                                <tr>
-                                                    <td className="title">
-                                                        <img src="https://www.osmosis.com.hk/wp-content/uploads/2017/10/new_logo_straight_s.png" width ="40" height="8" alt="Osmosis"/><br/>
-                                                        Client copy
-                                                    </td>
-
-                                                    <td>
-                                                        Service Report No. #: <br/>
-                                                        Date : <br/>
-                                                        Time :  to <br/>
-                                                        Serviced by:  <br/>
-                                                    </td>
-                                                </tr>
-                                             </tbody>     
-                                            </table>
-                                        </td>
-                                    </tr>
-
-                                    <tr className="information">
-                                        <td colSpan="2">
-                                            <table>
-                                            <tbody>   
-                                                <tr>
-
-                                                    <td>
-                                                        Name:   <br/>
-                                                        Contact :<br/>
-                                                        Tel : <br/>
-                                                        Address :   / <br/>
-                                                        Customer Code : <br/> 
-                                                    </td>
-
-                                                    <td>
-                                                    <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#333" bgColor="#fff"/>
-
-                                                    </td>
-
-                                                </tr>
-                                            </tbody>     
-                                            </table>
-                                        </td>
-                                    </tr>
-
-                                    <tr className="heading">
-                                        <td width="500">
-                                            Machine Model
-                                        </td>
-
-                                        <td >
-                                            Next Service Date
-                                        </td>
-                                    </tr>
-
-                                    <tr className="details">
-
-                                    <td>
-                                        
-
-                                        </td>
-
-                                        <td>
-                                        
-                                        </td>
-                                    </tr>
-
-                                    <tr className="heading">
-                                        <td>
-                                            Nature of Problem & Service Details
-                                        </td>
-
-                                        <td>
-                                            Filter
-                                        </td>
-                                    </tr>
-
-                                    <tr className="item">
-                                <td>
-                                        Case Type : 
-                                        </td>
-
-                                        <td>
-                                        
-                                        </td>
-                                    </tr>
-
-                                    <tr className="item">
-                                        <td>
-                                            Action : 
-                                        </td>
-
-                                        <td>
-
-                                        </td>
-                                    </tr>
-                                    <tr className="item">
-                                        <td>
-                                            Comment : 
-                                        </td>
-
-                                        <td>
-
-                                        </td>
-                                    </tr>
-                                    <tr className="heading">
-                                        <td width="500">
-                                        Client Copy
-                                        </td>
-
-                                        <td >
-                                            Date : 
-                                        </td>
-                                    </tr>
-
-                                    <tr className="details">
-
-                                    <td>
-                                            Case Type : 
-                                        </td>
-
-                                        <td>
-
-                                        </td>
-                                    </tr>
-                                    </tbody>    
-                                </table>
-                                <div id="thanks">Osmosis have performed  today , We certify that the service is satisfactorily completed</div>
-                                <div id="thanks1">Notice :    </div>
-
-
-                            <div id="thanks2"></div>
-                            <div id="notices">
-
-                                <div className="notice">Hotline : +852 8333 8118 </div>
-                                <div className="notice">Room F, 9/F, Block 1 , Golden Dragon Industrial Center, 152-160, Tai Lin Pai Road, Kwai Chung, N.T., HK</div>
-                                <div><a href="mailto:">info@osmosis.com.hk</a></div>
-                                <div><a href="www.osmosis.com.hk">www.osmosis.com.hk</a></div>
-                            </div>
-                            </div></th>
                            
                         </tr>
-                        </tbody>   
+                    </tbody>   
                     </table>
 
 

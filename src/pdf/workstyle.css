@@ -1,6 +1,6 @@
 
 .invoice-box {
-    max-width: 1200px;
+    max-width: 550px;
     margin: auto;
     padding: 5px;
     border: 1px solid #eee;
@@ -32,7 +32,7 @@
 
 .invoice-box table tr.top table td.title {
     font-size: 14px;
-    line-height: 45px;
+    line-height: 95px;
     color: #333;
 }
 
@@ -65,7 +65,7 @@
 
         #thanks{
           font-size: 0.8em;
-          margin-bottom: 10px;
+          margin-bottom: 30px;
         }
         #thanks1{
           font-size: 0.8em;
@@ -74,7 +74,7 @@
 
         #thanks2{
           font-size: 0.8em;
-          margin-bottom: 10px;
+          margin-bottom: 0px;
         }
 
         #notices{
@@ -97,7 +97,7 @@
           text-align: center;
         }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 550px) {
     .invoice-box table tr.top table td {
         width: 100%;
         display: block;
