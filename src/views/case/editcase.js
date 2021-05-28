@@ -13,10 +13,13 @@ import Swal from 'sweetalert2';
 import axios from "axios";
 import config from '../../config.json';
 import MultiSelect from "react-multi-select-component";
-import { useHistory } from "react-router-dom"
+
 import Workorder from "../../pdf/workorder";
 
 class EditCase extends Component {
+
+
+
     constructor(props) {
         super(props);
         this.state ={
@@ -38,7 +41,7 @@ class EditCase extends Component {
                 casetype:[],
                 casetypeselectedOption: [],
                 selectedcaseid : props.caseid,
-                
+                history : props.history,
 
                 editcase:{case_id:'', machines:{machineid:''},handledby:{staffcode:'',staffname:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:false},
               
@@ -89,7 +92,7 @@ class EditCase extends Component {
         //addcase["time"] ="10:00:00";
        // this.setState({addcase});
      
-      } 
+      }  
 
 
       componentDidMount()
@@ -256,17 +259,20 @@ class EditCase extends Component {
                 
      };
 
-     handleCasePrint = event => {
-      let history = useHistory();
-      
-      history.push({
-        pathname : "/printjob",
-        state: {customercode: this.props.customer.customercode.username }
+     handleCasePrint = (value1 , value2 ) =>() => 
+     {
+        console.log ("Hello ", value1)   
+        console.log ("Hello ", value2)        
+        this.state.history.push({
+          pathname : "/printjob",
+          state: {customercode:  value1 , caseid :value2}
+      });
+       
+    
         
-       });
-
-     }; 
+     }
      
+    
      
 
      handleCaseDelete = event => {
@@ -326,25 +332,13 @@ class EditCase extends Component {
                       
                       
                       ]
-      
-      
-       // console.log("RENDER")
-      
-                  
-     
-        //console.log(`Render handledy selection :`,this.state.handledbyselectedOption)
-       
-        //console.log(singlecase.map(s=>s.handledby.staffcode))
-        
-       
-
-      
+   
        
      
         return (
               <div>
                  <Modal isOpen={this.props.show} fade={this.state.fade } size="lg" >
-                  <ModalHeader>New Case for  {this.props.customer.customercode.username} Case ID {this.props.caseid}</ModalHeader>
+                  <ModalHeader>Edit Case for  {this.props.customer.customercode.username} Case ID {this.props.caseid}</ModalHeader>
                   <ModalBody>
                   
                  
@@ -487,7 +481,7 @@ class EditCase extends Component {
                     <div className="button-group">
                     <Button className="btn"  color="success"onClick={this.handleCaseUpdate} >Update</Button>
                     <Button className="btn"  color="danger" onClick={this.handleCaseDelete}>Delete </Button>
-                    <Button className="btn"  color="danger" onClick={this.handleCasePrint}>Print  </Button>
+                    <Button className="btn"  color="danger" onClick={this.handleCasePrint(this.props.customer.customercode.username ,this.props.caseid )}  >Print Job </Button>
                     <Button className="btn"  color="danger" onClick={this.props.handleClose}>Cancel</Button>
                     </div>  
                   </FormGroup>

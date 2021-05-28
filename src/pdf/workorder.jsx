@@ -1,28 +1,51 @@
 import React, { Component } from 'react';
+import axios from "axios";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import QRCode from "qrcode.react";
 import './workstyle.css';
+import config from '../config.json';
+
 class workorder extends Component {
     constructor(props) {
         super(props);
         this.state = { 
           customercode : this.props.location.state.customercode,
-
+          caseid : this.props.location.state.caseid,
+          case:{case_id:'', machines:{machineid:''},handledby:{staffcode:'',staffname:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:false},
          }
      
       }
+
+      async getSingleCase()
+     {
+        
+        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
+        await axios.get(config.getAllCase+this.state.caseid+'/', {headers: headers})
+            .then((response) => {
+              
+            this.setState({case:response.data});
+        });
+        
+        
+     } 
+
+     componentWillMount()
+     {
+        this.getSingleCase();
+
+     }
      
       _exportPdf = () => {
         const options = { scale: 1 }
-        const card = document.querySelector("#capture")
-
+        const card = document.querySelector("#capture");
+        
         html2canvas(card, options).then(canvas => {
            document.body.appendChild(canvas);  // if you want see your screenshot in body.
            
            const imgData = canvas.toDataURL('image/jpeg', 1.0);
-           const pdf = new jsPDF('l', 'mm', 'a4');;
-           pdf.addImage(imgData, 'JPEG', 0, 0);
+           const pdf = new jsPDF('l', 'mm', 'a4' );;
+           pdf.addImage(imgData, 'JPEG', 0, 0  );
 
           // var iframe = document.createElement('iframe');
 	      // iframe.setAttribute('style','position:absolute;right:0; top:0; bottom:0; height:100%; width:650px; padding:20px;');
@@ -46,6 +69,12 @@ class workorder extends Component {
     }
     
       render() { 
+          let machine = this.state.case.machines
+
+          let mach = Object.keys(machine)
+       
+
+         console.log(mach)
         return ( 
 
 
@@ -53,6 +82,7 @@ class workorder extends Component {
                 <div >
                     <button onClick={this._exportPdf}>Print</button>
                     <h1> {this.state.customercode}</h1>
+                    <h1> {this.state.caseid}</h1>
                 </div>
                 <div id="capture">
                     <table>
@@ -68,15 +98,156 @@ class workorder extends Component {
                                                 <tr>
                                                     <td className="title">
 
-                                                        <img src="https://www.osmosis.com.hk/wp-content/uploads/2017/10/new_logo_straight_s.png" width ="130" height="24" alt="Osmosis"/><br/>
+                                                        <img src="https://www.osmosis.com.hk/wp-content/uploads/2017/10/new_logo_straight_s.png"  width ="180" height="35" alt="Osmosis"/><br/>
                                                         Company copy
                                                     </td>
 
                                                     <td>
-                                                        Service Report No. #:4324324324 <br/>
-                                                        Date :24 JUN 2021 <br/>
-                                                        Time :  to <br/>
-                                                        Serviced by: HELLO <br/>
+                                                        Service Report No. #:{this.state.case.case_id} <br/>
+                                                        Date :{this.state.case.scheduledate} <br/>
+                                                        Time : {this.state.case.time} to <br/>
+                                                        Serviced by:  {this.state.case.handledby.staffname}<br/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>    
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr className="information">
+                                        <td colSpan="2">
+                                            <table>
+                                            <tbody>
+                                                <tr>
+
+                                                    <td>
+                                                        Name: XXXXXX  <br/>
+                                                        Contact : fdsf <br/>
+                                                        Tel : fsdfdsfdsf<br/>
+                                                        Address :  fdsfdsfdsf /<br/>
+                                                        Customer Code : {this.state.customercode}
+                                                    </td>
+
+                                                    <td>
+                                                      <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#333" bgColor="#fff"/>
+                                                    </td>
+
+                                                </tr>
+                                             </tbody>     
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr className="heading">
+                                        <td width="400">
+                                            Machine Model
+                                        </td>
+                                        
+                                        < >
+                                            Next Service Date
+                                        </>
+                                    </tr>
+
+                                    <tr className="details">
+
+                                    <td>{mach} </td>
+                                    <td>30 JUN 2021</td>
+                                    </tr>
+
+                                    <tr className="heading">
+                                        <td>
+                                            Nature of Problem & Service Details
+                                        </td>
+
+                                        <td>
+                                            Filter
+                                        </td>
+                                    </tr>
+
+                                    <tr className="item">
+                                <td>
+                                        Case Type : {this.state.case.casetype}
+                                        </td>
+
+                                        <td>
+                                            Filter Replacement
+                                        </td>
+                                    </tr>
+
+                                    <tr className="item">
+                                        <td>
+                                            Action : 
+                                        </td>
+
+                                        <td>
+                                        {this.state.case.action}
+                                        </td>
+                                    </tr>
+                                    <tr className="item">
+                                        <td>
+                                            Comment : 
+                                        </td>
+
+                                        <td>
+                                        {this.state.case.comment}
+                                        </td>
+                                    </tr>
+                                    <tr className="heading">
+                                        <td width="400">
+                                        Next Service Date
+                                        </td>
+
+                                        <td >
+                                            Date : JUL 2021
+                                        </td>
+                                    </tr>
+
+                                    <tr className="details">
+
+                                    <td>
+                                            Case Type : {this.state.case.casetype}
+                                       
+                                        </td>
+
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                    </tbody>    
+                                </table>
+                                <div id="thanks">Osmosis have performed  today , We certify that the service is satisfactorily completed</div>
+                                <div id="thanks1">Notice :    </div>
+
+
+                                <div id="thanks2"> Signature X</div>
+                                    <div id="notices">
+
+                                        <div className="notice">Hotline : +852 8333 8118 </div>
+                                        <div className="notice">Room F, 9/F, Block 1 , Golden Dragon Industrial Center, 152-160, Tai Lin Pai Road, Kwai Chung, N.T., HK</div>
+                                        <div><a href="mailto:">info@osmosis.com.hk</a></div>
+                                        <div><a href="www.osmosis.com.hk">www.osmosis.com.hk</a></div>
+                                    </div>
+                                </div>
+                            </th>
+                            <th><div className="invoice-box">
+                                <table cellPadding="0" cellSpacing="0"  width="400">
+                                <tbody>
+                                    <tr className="top">
+                                        <td colSpan="2">
+                                        <table>
+                                         <tbody>
+                                                <tr>
+                                                    <td className="title">
+
+                                                        <img src="https://www.osmosis.com.hk/wp-content/uploads/2017/10/new_logo_straight_s.png" width ="180" height="35" alt="Osmosis"/><br/>
+                                                        Customer Copy
+                                                    </td>
+
+                                                    <td>
+                                                        Service Report No. #:{this.state.case.case_id} <br/>
+                                                        Date :{this.state.case.scheduledate} <br/>
+                                                        Time : {this.state.case.time} to <br/>
+                                                        Serviced by: 
                                                     </td>
                                                 </tr>
                                             </tbody>    
@@ -136,7 +307,7 @@ class workorder extends Component {
 
                                     <tr className="item">
                                 <td>
-                                        Case Type : 
+                                         Case Type : {this.state.case.casetype}
                                         </td>
 
                                         <td>
@@ -150,7 +321,7 @@ class workorder extends Component {
                                         </td>
 
                                         <td>
-                                                N/A
+                                             {this.state.case.action}
                                         </td>
                                     </tr>
                                     <tr className="item">
@@ -159,7 +330,7 @@ class workorder extends Component {
                                         </td>
 
                                         <td>
-                                        N/A
+                                            {this.state.case.comment}
                                         </td>
                                     </tr>
                                     <tr className="heading">
@@ -175,7 +346,7 @@ class workorder extends Component {
                                     <tr className="details">
 
                                     <td>
-                                            Case Type : 
+                                         Case Type : {this.state.case.casetype}
                                         </td>
 
                                         <td>
@@ -198,6 +369,8 @@ class workorder extends Component {
                                     </div>
                                 </div>
                             </th>
+
+                            
 
 
                            
