@@ -4,6 +4,7 @@
     "getAllCase" : "http://127.0.0.1:8000/management/Cases/",
     "getMachineonlyclient" : "http://127.0.0.1:8000/management/list_machine_client/",
     "getCaseonlyclient" : "http://127.0.0.1:8000/management/list_case_client/",
+    "getClientbyCode" : "http://127.0.0.1:8000/management/list_code_client/",
     "updateCustomer" : "http://127.0.0.1:8000/security/update_customer_info/",
     "updateMachine" : "http://127.0.0.1:8000/management/update_machine_info/",
     "updateProduct" : "http://127.0.0.1:8000/management/update_product_info/",

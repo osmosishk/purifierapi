@@ -5,6 +5,7 @@ import html2canvas from 'html2canvas';
 import QRCode from "qrcode.react";
 import './workstyle.css';
 import config from '../config.json';
+import { fn } from 'moment';
 
 class workorder extends Component {
     constructor(props) {
@@ -12,7 +13,8 @@ class workorder extends Component {
         this.state = { 
           customercode : this.props.location.state.customercode,
           caseid : this.props.location.state.caseid,
-          case:{case_id:'', machines:{machineid:''},handledby:{staffcode:'',staffname:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:false},
+          case:{case_id:'', machines:{machineid:'',machinetype:{productcode: "", producttype: "", price: ""}},handledby:{staffcode:'',staffshort:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:false},
+          
          }
      
       }
@@ -25,14 +27,16 @@ class workorder extends Component {
             .then((response) => {
               
             this.setState({case:response.data});
+           
         });
         
         
      } 
 
-     componentWillMount()
+     componentDidMount()
      {
         this.getSingleCase();
+         console.log(this.state.case.machines.machineid) 
 
      }
      
@@ -65,24 +69,68 @@ class workorder extends Component {
         var win = window.open();
         win.document.write('<iframe src="' + base64URL  + '"position:absolute; frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
     }
+          
+       
+    
    
     }
     
       render() { 
-          let machine = this.state.case.machines
 
-          let mach = Object.keys(machine)
-       
+        var machine = this.state.case.machines
+        var filter = this.state.case.filters 
+        var code =Object.values(machine).map(m=>m.machinetype)
+        const value = machine
+    
+        console.log(value)
+        
+        for (var i = 0; i < code.length; i++)
+        {
+           var temp = code[i];
+           
+          
+        }
 
-         console.log(mach)
+
+        
+        const Mach = () => (
+            <div>
+              {Object.keys(machine).map(obj => <div key={obj}>{ machine[obj].machineid} </div>)}
+             
+            </div>
+           
+
+          );
+
+          const Temp = () => (
+            <div>
+              {Object.keys(code).map(obj => <div key={obj}>{ code[obj].productcode} </div>)}
+             
+            </div>
+           
+
+          );
+
+
+         
+
+          const Filter = () => (
+            <div className='rowC' >
+              {Object.keys(filter).map(obj => <div key={obj}>{filter[obj].filtercode}</div>)}
+            </div>
+          );
+          
+          
         return ( 
 
 
             <div>
                 <div >
                     <button onClick={this._exportPdf}>Print</button>
-                    <h1> {this.state.customercode}</h1>
-                    <h1> {this.state.caseid}</h1>
+                    <h1> {this.state.customercode}/{this.state.caseid}</h1>
+                    
+                  
+                    
                 </div>
                 <div id="capture">
                     <table>
@@ -106,7 +154,7 @@ class workorder extends Component {
                                                         Service Report No. #:{this.state.case.case_id} <br/>
                                                         Date :{this.state.case.scheduledate} <br/>
                                                         Time : {this.state.case.time} to <br/>
-                                                        Serviced by:  {this.state.case.handledby.staffname}<br/>
+                                                        Serviced by:  {this.state.case.handledby.staffshort}<br/>
                                                     </td>
                                                 </tr>
                                             </tbody>    
@@ -143,14 +191,14 @@ class workorder extends Component {
                                             Machine Model
                                         </td>
                                         
-                                        < >
+                                        <td >
                                             Next Service Date
-                                        </>
+                                        </td>
                                     </tr>
 
                                     <tr className="details">
 
-                                    <td>{mach} </td>
+                                    <td>< Mach /></td>
                                     <td>30 JUN 2021</td>
                                     </tr>
 
@@ -170,7 +218,7 @@ class workorder extends Component {
                                         </td>
 
                                         <td>
-                                            Filter Replacement
+                                            <Filter/>
                                         </td>
                                     </tr>
 

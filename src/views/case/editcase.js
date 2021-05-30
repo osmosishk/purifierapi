@@ -195,9 +195,11 @@ class EditCase extends Component {
         if(machine.length>0)
         {
           let tempmachinestring= machine[0].map(m=>m.machineid);
+          let tempmachinetype= machine[0].map(m=>m.machinetype.productcode);
           
           for(var i=0;i<tempmachinestring.length;i++){
-            machinestring.push({value:tempmachinestring[i], label:tempmachinestring[i]})
+            
+            machinestring.push({value:tempmachinestring[i], label:tempmachinetype[i]+" "+tempmachinestring[i]})
            
           }
 
@@ -348,7 +350,7 @@ class EditCase extends Component {
                   <FormGroup>
                     <Label >Select Water purifier : </Label>
                      <MultiSelect
-                        options={this.props.machine.map(m=>({value: m.machineid, label: m.machineid+" "+m.installaddress1}))}
+                        options={this.props.machine.map(m=>({value: m.machineid, label: m.machinetype.productcode+" "+m.machineid+" "+m.installaddress1}))}
                         value={this.state.selectedOption}
                         onChange={this.handleChange}
                         labelledBy={"Select water purifier "}

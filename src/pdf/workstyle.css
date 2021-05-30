@@ -127,3 +127,5 @@
 .rtl table tr td:nth-child(2) {
     text-align: left;
 }
+
+.rowC{display:flex; flex-direction:row;}

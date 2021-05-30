@@ -217,7 +217,7 @@ class AddCase extends Component {
                   <FormGroup>
                     <Label >Select Water purifier : </Label>
                      <MultiSelect
-                        options={this.props.machine.map(m=>({value: m.machineid, label: m.machineid+" "+m.installaddress1}))}
+                        options={this.props.machine.map(m=>({value: m.machineid, label:  m.machinetype.productcode+" "+m.machineid+" "+m.installaddress1}))}
                         value={this.state.selectedOption}
                         onChange={this.handleChange}
                         labelledBy={"Select water purifier "}
