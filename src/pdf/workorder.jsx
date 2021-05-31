@@ -5,7 +5,7 @@ import html2canvas from 'html2canvas';
 import QRCode from "qrcode.react";
 import './workstyle.css';
 import config from '../config.json';
-import { fn } from 'moment';
+
 
 class workorder extends Component {
     constructor(props) {
@@ -13,8 +13,9 @@ class workorder extends Component {
         this.state = { 
           customercode : this.props.location.state.customercode,
           caseid : this.props.location.state.caseid,
-          case:{case_id:'', machines:{machineid:'',machinetype:{productcode: "", producttype: "", price: ""}},handledby:{staffcode:'',staffshort:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:false},
-          
+          case:{case_id:'', machines:{machineid:'',machinetype:{productcode: '', producttype: '', price: ''}},handledby:{staffcode:'',staffshort:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:false},
+          customerinfo :[]
+          //case:{case_id:'', machines:{machineid:'xxx',machinetype:{productcode: '', producttype: '', price: ''}},handledby:{staffcode:'',staffshort:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:''},
          }
      
       }
@@ -33,10 +34,26 @@ class workorder extends Component {
         
      } 
 
+     async getCustomer()
+     {
+        
+        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
+        await axios.get(config.getClientbyCode, {headers: headers ,params: {customercode: this.state.customercode}})
+            .then((response) => {
+              
+            this.setState({customerinfo:response.data});
+           
+        });
+        
+        
+     } 
+
      componentDidMount()
      {
+         
         this.getSingleCase();
-         console.log(this.state.case.machines.machineid) 
+        this.getCustomer();
+        
 
      }
      
@@ -69,8 +86,8 @@ class workorder extends Component {
         var win = window.open();
         win.document.write('<iframe src="' + base64URL  + '"position:absolute; frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
     }
-          
-       
+   
+
     
    
     }
@@ -79,38 +96,20 @@ class workorder extends Component {
 
         var machine = this.state.case.machines
         var filter = this.state.case.filters 
-        var code =Object.values(machine).map(m=>m.machinetype)
-        const value = machine
-    
-        console.log(value)
-        
-        for (var i = 0; i < code.length; i++)
-        {
-           var temp = code[i];
-           
-          
-        }
-
-
-        
+     
+   
+     
         const Mach = () => (
-            <div>
+            <div className='rowC'>
               {Object.keys(machine).map(obj => <div key={obj}>{ machine[obj].machineid} </div>)}
+              {Object.keys(machine).map(obj => <div key={obj}>{ Object.keys(machine[obj]).map(k=>machine[obj][k].productcode)} </div>)}
              
             </div>
            
 
           );
 
-          const Temp = () => (
-            <div>
-              {Object.keys(code).map(obj => <div key={obj}>{ code[obj].productcode} </div>)}
-             
-            </div>
-           
-
-          );
-
+        
 
          
 
@@ -129,7 +128,7 @@ class workorder extends Component {
                     <button onClick={this._exportPdf}>Print</button>
                     <h1> {this.state.customercode}/{this.state.caseid}</h1>
                     
-                  
+                    
                     
                 </div>
                 <div id="capture">
@@ -169,10 +168,10 @@ class workorder extends Component {
                                                 <tr>
 
                                                     <td>
-                                                        Name: XXXXXX  <br/>
-                                                        Contact : fdsf <br/>
-                                                        Tel : fsdfdsfdsf<br/>
-                                                        Address :  fdsfdsfdsf /<br/>
+                                                        Name: {this.state.customerinfo.contactname}  <br/>
+                                                        Contact : {this.state.customerinfo.contactno} <br/>
+                                                        Tel : {this.state.customerinfo.mobile}<br/>
+                                                        Address : {this.state.customerinfo.billingaddress}/<br/>
                                                         Customer Code : {this.state.customercode}
                                                     </td>
 
@@ -213,7 +212,7 @@ class workorder extends Component {
                                     </tr>
 
                                     <tr className="item">
-                                <td>
+                                         <td>
                                         Case Type : {this.state.case.casetype}
                                         </td>
 
@@ -295,7 +294,7 @@ class workorder extends Component {
                                                         Service Report No. #:{this.state.case.case_id} <br/>
                                                         Date :{this.state.case.scheduledate} <br/>
                                                         Time : {this.state.case.time} to <br/>
-                                                        Serviced by: 
+                                                        Serviced by:  {this.state.case.handledby.staffshort}<br/>
                                                     </td>
                                                 </tr>
                                             </tbody>    
@@ -309,11 +308,11 @@ class workorder extends Component {
                                             <tbody>
                                                 <tr>
 
-                                                    <td>
-                                                        Name: XXXXXX  <br/>
-                                                        Contact : fdsf <br/>
-                                                        Tel : fsdfdsfdsf<br/>
-                                                        Address :  fdsfdsfdsf /<br/>
+                                                <td>
+                                                        Name: {this.state.customerinfo.contactname}  <br/>
+                                                        Contact : {this.state.customerinfo.contactno} <br/>
+                                                        Tel : {this.state.customerinfo.mobile}<br/>
+                                                        Address : {this.state.customerinfo.billingaddress}/<br/>
                                                         Customer Code : {this.state.customercode}
                                                     </td>
 
@@ -339,7 +338,7 @@ class workorder extends Component {
 
                                     <tr className="details">
 
-                                    <td>WPU890CX</td>
+                                    <td>< Mach /></td>
                                     <td>30 JUN 2021</td>
                                     </tr>
 
@@ -393,12 +392,12 @@ class workorder extends Component {
 
                                     <tr className="details">
 
-                                    <td>
-                                         Case Type : {this.state.case.casetype}
+                                        <td>
+                                        Case Type : {this.state.case.casetype}
                                         </td>
 
                                         <td>
-
+                                            <Filter/>
                                         </td>
                                     </tr>
                                     </tbody>    
