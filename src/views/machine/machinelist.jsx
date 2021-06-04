@@ -63,7 +63,13 @@ class Machinelist extends Component {
                     {
                         Header: "Machine ID",
                         accessor: "machineid",
-                        width: 150
+                        width: 100
+                       
+                    },
+                    {
+                        Header: "Machine Type",
+                        accessor: "machinetype.productcode",
+                        width: 120
                        
                     },
                     
@@ -84,6 +90,8 @@ class Machinelist extends Component {
                         width: 100
                        
                     },
+
+                    
 
                     {
                         Header: "Edit",
