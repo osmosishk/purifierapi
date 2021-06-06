@@ -85,6 +85,12 @@ class Caselist extends Component {
                         width: 100
                        
                     },
+                    {
+                        Header: "Handle by",
+                        accessor: "handledby.staffshort",
+                        width: 100
+                       
+                    },
 
                     
 
