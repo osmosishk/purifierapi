@@ -9,6 +9,7 @@ import {
   Card,
   CardBody,
   CardTitle,
+  CardImg,
   CardSubtitle,
   Button,
   TabContent,
@@ -25,7 +26,6 @@ import {
 import classnames from "classnames";
 import "react-table/react-table.css";
 
-
 import MachineCard from '../machine/machinecard';
 
 
@@ -33,9 +33,10 @@ import Swal from 'sweetalert2';
 import AddMachine from './../machine/addmachine';
 import AddCase from './../case/addnewcase';
 import EditCase from './../case/editcase';
+import DocShow from './../case/docshow';
 
 import QRCode from "qrcode.react";
-
+import SlideShow from 'react-image-show';
 
 class Customerdetail extends Component {
    
@@ -56,6 +57,8 @@ class Customerdetail extends Component {
         machineshow: false,
         caseshow : false,
         editcaseshow : false,
+        docshow:false,
+        docshowlink :''
       
      }
      this.showModal = this.showModal.bind(this);
@@ -63,6 +66,9 @@ class Customerdetail extends Component {
 
      this.showCaseModal = this.showCaseModal.bind(this);
      this.hideCaseModal = this.hideCaseModal.bind(this);
+
+     this.showDocModal = this.showDocModal.bind(this);
+     this.hideDocModal = this.hideDocModal.bind(this);
    }
    
    toggle(tab) {
@@ -99,6 +105,15 @@ class Customerdetail extends Component {
 
   hideEditCaseModal = () => {
     this.setState({ editcaseshow : false });
+  };
+
+  showDocModal = () => {
+    this.setState({ docshow : true });
+       
+  };
+
+  hideDocModal = () => {
+    this.setState({ docshow : false });
   };
 
   
@@ -206,6 +221,23 @@ class Customerdetail extends Component {
        
     }
 
+
+    imageclick = event => 
+    {
+      
+       
+        console.log(" image Click")      
+        this.setState({ docshowlink : event.currentTarget.innerHTML },() => {
+          this.showDocModal();
+          console.log(this.state.docshowlink);
+       });
+        
+          
+
+      
+       
+    }
+
     printqr = event => 
     {
       
@@ -242,8 +274,14 @@ class Customerdetail extends Component {
         //console.log(this.state.customerinfo)
        
         //console.log(this.state.case)
-       
+    
+        const urlArray = ["http://139.162.46.17/PXD08008/PXD08008_202106051423301360.jpg",
+                          "http://139.162.46.17/PXD08008/PXD08008_202106051423339473.jpg",
+                          "http://139.162.46.17/PXD08008/PXD08008_202106051423301360.jpg" ,
+    ];
 
+     
+      
 
         if(this.state.isFetching){ return <div>Loading...</div>;}
         return(
@@ -477,7 +515,21 @@ class Customerdetail extends Component {
       
                     </TabPane>
                     <TabPane tabId="3">
-                         <h5>Page3</h5>
+                    <div>
+                    <DocShow show={this.state.docshow} link={this.state.docshowlink} handleClose={this.hideDocModal}/>
+                    <SlideShow
+                          images={urlArray}
+                          width="920px"
+                          imagesWidth="800px" 
+                          imagesHeight="450px"
+                          imagesHeightMobile="56vw"
+                          thumbnailsWidth="920px"
+                          thumbnailsHeight="6vw"
+                          indicators thumbnails fixedImagesHeight
+                          onImageClick={this.imageclick}
+                        />
+                      </div>
+                       
                     </TabPane>
                     <TabPane tabId="4">
                     <Row>
