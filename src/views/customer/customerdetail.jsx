@@ -50,7 +50,8 @@ class Customerdetail extends Component {
         machine :[],
         case :[],
         product:[],
-        
+        jobsheet:{ customer:'',casetype:'',date:'',doctype:'',filename:'',image_path:'',scandate:''},
+      
         activeTab : '1',
         isFetching: false,
         loading: false,
@@ -151,6 +152,7 @@ class Customerdetail extends Component {
             this.getMachine();
             this.getCase();
             this.getProductData();
+            this.getDoc();
            
         
         }
@@ -162,6 +164,19 @@ class Customerdetail extends Component {
             .then((response) => {
               
             this.setState({machine:response.data});
+        });
+        
+        
+     } 
+
+     async getDoc()
+     {
+        
+        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
+        await axios.get(config.getDoc, {headers: headers ,params: {customer: this.state.id} })
+            .then((response) => {
+              
+            this.setState({jobsheet:response.data});
         });
         
         
@@ -212,30 +227,23 @@ class Customerdetail extends Component {
 
     showcase = event => 
     {
-      
+        
        
         this.setState({ editcaseshow : true });
         this.setState({ caseid : event.currentTarget.value});
-     
-          
+       
        
     }
 
 
     imageclick = event => 
     {
-      
        
-        console.log(" image Click")      
-        this.setState({ docshowlink : event.currentTarget.innerHTML },() => {
+          this.setState({ docshowlink : event.currentTarget.innerHTML },() => {
           this.showDocModal();
-          console.log(this.state.docshowlink);
+         
        });
-        
-          
-
-      
-       
+  
     }
 
     printqr = event => 
@@ -255,11 +263,7 @@ class Customerdetail extends Component {
       return function() {
         console.log("HEllo world ", value1)
         console.log("HEllo world ", value2)
-        //this.props.history.push({
-        //    pathname : "/printjob",
-        //    state: {customercode: event.currentTarget.value }
-        //    
-        //});
+    
       }
        
     }
@@ -272,13 +276,16 @@ class Customerdetail extends Component {
     render() { 
        
         //console.log(this.state.customerinfo)
+        let image = this.state.jobsheet;
+        let tempurl = Object.keys(image).map(m=>image[m].image_path)
+        let server ='http://139.162.46.17/'
+        let urlArray=[]
+        for ( var i = 0; i <  tempurl.length; i++) {
+         
+          urlArray.push(server.concat(tempurl[i]));
+        }
        
-        //console.log(this.state.case)
-    
-        const urlArray = ["http://139.162.46.17/PXD08008/PXD08008_202106051423301360.jpg",
-                          "http://139.162.46.17/PXD08008/PXD08008_202106051423339473.jpg",
-                          "http://139.162.46.17/PXD08008/PXD08008_202106051423301360.jpg" ,
-    ];
+      
 
      
       
@@ -516,7 +523,7 @@ class Customerdetail extends Component {
                     </TabPane>
                     <TabPane tabId="3">
                     <div>
-                    <DocShow show={this.state.docshow} link={this.state.docshowlink} handleClose={this.hideDocModal}/>
+                    <DocShow show={this.state.docshow} link={this.state.docshowlink} doc={this.state.jobsheet} handleClose={this.hideDocModal}/>
                     <SlideShow
                           images={urlArray}
                           width="920px"
