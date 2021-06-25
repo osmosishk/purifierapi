@@ -257,17 +257,7 @@ class Customerdetail extends Component {
        
     }
 
-    printjob(value1 , value2)
-    {
-       
-      return function() {
-        console.log("HEllo world ", value1)
-        console.log("HEllo world ", value2)
-    
-      }
-       
-    }
-
+  
 
     
 
@@ -343,7 +333,7 @@ class Customerdetail extends Component {
                         </div>
                         <div className="button-group">
                           <Button className="btn"  color="primary" onClick={this.printqr} value={this.state.customerinfo.customercode.username} >Print QR Code</Button>
-                          <Button className="btn"  color="primary" onClick={this.printjob(this.state.customerinfo.customercode.username , this.state.customerinfo.contactno)}  >Print Job </Button>
+                         
                          
                         </div>
                         
