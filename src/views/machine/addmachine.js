@@ -87,12 +87,11 @@ class AddMachine extends Component {
 
       handleMachineadd = event => {
         event.preventDefault();
-        console.log(this.state.machinestring);
+        //console.log(this.state.machinestring);
         const addmachine = JSON.stringify({...this.state.machinestring})
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
-
-        console.log(addmachine);
-        axios.post(config.getAllmachine, addmachine,{headers: headers})
+        const token =  localStorage.getItem('token')
+        //console.log(addmachine);
+        axios.post(config.getAllmachine, addmachine,{headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
          .then(res => {
             console.log(res);
             console.log(res.data);
@@ -100,9 +99,15 @@ class AddMachine extends Component {
             })
          .catch((error) => {
             console.log(error);
-              })  
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong!',
+              footer: '${error}'
+            })
+          })
               
-          window.location.reload(false);          
+         // window.location.reload(false);          
      };
      
 

@@ -22,9 +22,9 @@ class workorder extends Component {
 
       async getSingleCase()
      {
+        const token =  localStorage.getItem('token')
         
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getAllCase+this.state.caseid+'/', {headers: headers})
+        await axios.get(config.getAllCase+this.state.caseid+'/', {headers: {"Authorization" : `token ${token}`}})
             .then((response) => {
               
             this.setState({case:response.data});
@@ -37,8 +37,8 @@ class workorder extends Component {
      async getCustomer()
      {
         
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getClientbyCode, {headers: headers ,params: {customercode: this.state.customercode}})
+        const token =  localStorage.getItem('token')
+        await axios.get(config.getClientbyCode, {headers: {"Authorization" : `token ${token}`} ,params: {customercode: this.state.customercode}})
             .then((response) => {
               
             this.setState({customerinfo:response.data});

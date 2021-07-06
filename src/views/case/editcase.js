@@ -43,7 +43,7 @@ class EditCase extends Component {
                 selectedcaseid : props.caseid,
                 history : props.history,
 
-                editcase:{case_id:'', machines:{machineid:''},handledby:{staffcode:'',staffname:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:false},
+                editcase:{case_id:'', machines:{machineid:''},handledby:{staffcode:'',staffname:''},filters:{filtercode:''},casetype:'',scheduledate:'',time:'',action:'',suggest:'',comment:'',iscompleted:''},
               
                 
 
@@ -55,8 +55,8 @@ class EditCase extends Component {
  
       async getTechData()
       {
-          const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-          await axios.get(config.getAlltechnician,{ headers: headers})
+        const token =  localStorage.getItem('token')
+          await axios.get(config.getAlltechnician,{ headers: {"Authorization" : `token ${token}`}})
               .then((response) => {
                 
               this.setState({handledby:response.data});
@@ -68,8 +68,8 @@ class EditCase extends Component {
 
       async getFilterData()
     {
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getAllfilter,{ headers: headers})
+        const token =  localStorage.getItem('token')
+        await axios.get(config.getAllfilter,{ headers: {"Authorization" : `token ${token}`}})
             .then((response) => {
               
             this.setState({filter:response.data});
@@ -143,12 +143,22 @@ class EditCase extends Component {
 
       };
 
+      completeChange = () => {
+        let pstatus  = this.state.editcase.iscompleted;
+
+        let editcase = this.state.editcase;
+        editcase['iscompleted'] = !pstatus
+        this.setState({editcase})
+        
+      }
+
       handledbyhandleChange = handledbyselectedOption => {
         let editcase = Object.assign({}, this.state.editcase);
         editcase.handledby['staffcode']= handledbyselectedOption[0].value
         editcase.handledby['staffname']= handledbyselectedOption[0].label
         
-        this.setState({editcase} )
+        this.setState({editcase} ,()=> console.log(this.state.editcase))
+
         this.setState({handledbyselectedOption})
       };
 
@@ -176,6 +186,7 @@ class EditCase extends Component {
         editcase['machines']=singlecase.map(s=>s.machines)[0]
         editcase['filters']=singlecase.map(s=>s.filters)[0]
         editcase['handledby']=singlecase.map(s=>s.handledby)[0]
+        editcase['iscompleted']=singlecase.map(s=>s.iscompleted)[0]
         this.setState({editcase})
         }
       }
@@ -242,15 +253,17 @@ class EditCase extends Component {
 
       handleCaseUpdate = event => {
         event.preventDefault();
-        
+        const token =  localStorage.getItem('token')
         const editcase = JSON.stringify({...this.state.editcase})
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
+      
 
-        console.log("JOSN" ,editcase);
-        axios.put(config.updateCase, editcase,{headers: headers})
+        //console.log("JOSN" ,editcase);
+       
+        axios.put(config.updateCase, editcase,{headers: {"Authorization" : `token ${token}` ,'Content-Type': 'application/json'}  })
         .then(res => {
-           console.log(res);
-           console.log(res.data);
+            //console.log(res);
+            //console.log(res.data);
+
            Swal.fire('Edit Case Successful')
            window.location.reload(false);   
            })
@@ -263,8 +276,7 @@ class EditCase extends Component {
 
      handleCasePrint = (value1 , value2 ) =>() => 
      {
-        console.log ("Hello ", value1)   
-        console.log ("Hello ", value2)        
+       
         this.state.history.push({
           pathname : "/printjob",
           state: {customercode:  value1 , caseid :value2}
@@ -280,8 +292,8 @@ class EditCase extends Component {
      handleCaseDelete = event => {
       event.preventDefault();
       
+      const token =  localStorage.getItem('token')
       
-      const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
       Swal.fire({
         title: 'Are you sure to delete Cases?',
         showDenyButton: true,
@@ -291,7 +303,7 @@ class EditCase extends Component {
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-          axios.delete(config.getAllCase+this.props.caseid+'/',{headers: headers})
+          axios.delete(config.getAllCase+this.props.caseid+'/',{headers: {"Authorization" : `token ${token}` ,'Content-Type': 'application/json'}  })
           .then(res => {
             console.log(res);
             console.log(res.data);
@@ -334,8 +346,8 @@ class EditCase extends Component {
                       
                       
                       ]
-   
-       
+     
+      
      
         return (
               <div>
@@ -475,7 +487,17 @@ class EditCase extends Component {
                       defaultValue={this.state.case.map(s=>s.comment)}
                     />
                   </FormGroup>
+                  </Col>
+                  <Col sm="12" md="6"> 
+                  <FormGroup>
+                 
+                         <div className="form-check form-check-inline">
+                                <Input className="form-check-input" type="checkbox" id="iscompleted" defaultChecked={this.state.editcase.iscompleted} onChange={this.completeChange} />
+                                <Label for="inlineCheckbox1">Completed</Label>
+                            </div>
+                  </FormGroup>
                   </Col>   
+
                   </Row>
                 
               

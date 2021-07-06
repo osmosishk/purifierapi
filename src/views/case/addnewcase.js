@@ -39,8 +39,9 @@ class AddCase extends Component {
  
       async getTechData()
       {
-          const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-          await axios.get(config.getAlltechnician,{ headers: headers})
+        const token =  localStorage.getItem('token')  
+        const headers = {'Authorization': {"Authorization" : `token ${token}`} }
+          await axios.get(config.getAlltechnician,{ headers: {"Authorization" : `token ${token}`}})
               .then((response) => {
                 
               this.setState({handledby:response.data});
@@ -51,8 +52,9 @@ class AddCase extends Component {
 
       async getFilterData()
     {
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getAllfilter,{ headers: headers})
+        
+        const token =  localStorage.getItem('token')
+        await axios.get(config.getAllfilter,{ headers: {"Authorization" : `token ${token}`}})
             .then((response) => {
               
             this.setState({filter:response.data});
@@ -140,15 +142,14 @@ class AddCase extends Component {
 
       handleCaseadd = event => {
         event.preventDefault();
-        
+        const token =  localStorage.getItem('token')
         const addcase= JSON.stringify({...this.state.addcase})
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
-
-        //console.log("JSON STRING",addcase);
-        axios.post(config.getAllCase,addcase,{headers: headers})
+     
+        console.log("JSON STRING",addcase);
+        axios.post(config.getAllCase,addcase,{headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
          .then(res => {
-            //console.log(res);
-            //console.log(res.data);
+            console.log(res);
+            console.log(res.data);
             Swal.fire({
               title:'New Case Successful',
               showDenyButton: true,
@@ -171,17 +172,20 @@ class AddCase extends Component {
        //   window.location.reload(false);          
      };
      
-     handlePrint = event => {
-    
-
-      this.props.history.push({
-        pathname : "/printjob",
-        state: {customercode: this.props.customer.customercode.username }
-        
-       });
-
-     }; 
+  
      
+
+      handlePrint = (value1 , value2 ) =>() => 
+     {
+       
+        this.state.history.push({
+          pathname : "/printjob",
+          state: {customercode:  value1 , caseid :value2}
+      });
+       
+    
+        
+     }
 
       
  
@@ -346,7 +350,7 @@ class AddCase extends Component {
                   <FormGroup>
                     <div className="button-group">
                     <Button className="btn"  color="success"onClick={this.handleCaseadd} >Add</Button>
-                    <Button className="btn"  color="danger" onClick={this.handlePrint}>Print and Save</Button>
+                    <Button className="btn"  color="danger" onClick={this.handlePrint(this.props.customer.customercode.username ,this.props.caseid )}>Print and Save</Button>
                     <Button className="btn"  color="danger" onClick={this.props.handleClose}>Cancel</Button>
                     </div>  
                   </FormGroup>

@@ -36,8 +36,9 @@ class Productlist extends Component {
 
     async getProductData()
     {
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getAllproduct,{ headers: headers})
+      const token =  localStorage.getItem('token')  
+      
+        await axios.get(config.getAllproduct,{ headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
             .then((response) => {
               
             this.setState({product:response.data});
@@ -56,7 +57,7 @@ class Productlist extends Component {
       const selectedproduct ={...this.state.selectedproduct};
       selectedproduct[input.name] = input.value;
       this.setState({selectedproduct})
-      console.log(this.state.selectedproduct)
+     
     }
 
   
@@ -79,12 +80,12 @@ class Productlist extends Component {
 
     handleProductUpdate = event => {
       event.preventDefault();
+      const token =  localStorage.getItem('token')
       
-      const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
       const updateproduct = JSON.stringify({...this.state.selectedproduct})
      
   
-      axios.put(config.updateProduct, updateproduct , {headers: headers})
+      axios.put(config.updateProduct, updateproduct , {headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
         .then(res => {
          
           Swal.fire('Update Product Successful')

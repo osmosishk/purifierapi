@@ -46,8 +46,8 @@ class MachineCard extends Component {
   }
   async getProductData()
       {
-          const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-          await axios.get(config.getAllproduct,{ headers: headers})
+          const token =  localStorage.getItem('token')
+          await axios.get(config.getAllproduct,{ headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
               .then((response) => {
                 
               this.setState({product:response.data});
@@ -69,12 +69,12 @@ class MachineCard extends Component {
   }
   handleMachineUpdate = event => {
     event.preventDefault();
-    
-    const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
+    const token =  localStorage.getItem('token')
+  
     const updatemachine = JSON.stringify({...this.state.testmachine})
     console.log(updatemachine);
 
-    axios.put(config.updateMachine, updatemachine , {headers: headers})
+    axios.put(config.updateMachine, updatemachine , {headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
       .then(res => {
        
         Swal.fire('Update Machine Successful')
@@ -87,8 +87,8 @@ class MachineCard extends Component {
   }
 
   deleteMachine() {
-    
-    const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
+    const token =  localStorage.getItem('token')
+  
       Swal.fire({
         title: 'Are you sure to delete this Water Purifier?',
         showDenyButton: true,
@@ -98,7 +98,7 @@ class MachineCard extends Component {
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-          axios.delete(config.getAllmachine+this.props.machine.id+'/',{headers: headers})
+          axios.delete(config.getAllmachine+this.props.machine.id+'/',{headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
           .then(res => {
             console.log(res);
             console.log(res.data);

@@ -37,8 +37,9 @@ class Technicianlist extends Component {
 
     async getTechData()
     {
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getAlltechnician,{ headers: headers})
+      const token =  localStorage.getItem('token')  
+      
+        await axios.get(config.getAlltechnician,{ headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
             .then((response) => {
               
             this.setState({technician:response.data});
@@ -81,12 +82,12 @@ class Technicianlist extends Component {
 
     handleTechUpdate = event => {
       event.preventDefault();
-      
-      const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
+      const token =  localStorage.getItem('token')
+     
       const updatetech = JSON.stringify({...this.state.selectedtech})
-      console.log(updatetech)
+      
   
-      axios.put(config.updateTech, updatetech , {headers: headers})
+      axios.put(config.updateTech, updatetech , {headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
         .then(res => {
          
           Swal.fire('Update Tech Successful')

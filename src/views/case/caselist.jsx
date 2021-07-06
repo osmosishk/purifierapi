@@ -23,10 +23,10 @@ class Caselist extends Component {
     
     async getCaseData()
 
-    {
+    {   const token =  localStorage.getItem('token')
         console.log(" Cases Listing ")   
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getAllCase,{ headers: headers})
+       
+        await axios.get(config.getAllCase,{ headers: {"Authorization" : `token ${token}`}})
             .then((response) => {
               
             this.setState({case:response.data});

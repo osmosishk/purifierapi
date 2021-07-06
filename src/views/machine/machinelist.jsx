@@ -21,9 +21,8 @@ class Machinelist extends Component {
    
     async getMachineData()
     {
-        console.log(" Machine Listing ")
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getAllmachine,{ headers: headers})
+        const token =  localStorage.getItem('token')
+       await axios.get(config.getAllmachine,{ headers:  {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
             .then((response) => {
               
             this.setState({machine:response.data});

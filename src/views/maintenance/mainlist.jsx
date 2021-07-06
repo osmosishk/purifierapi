@@ -33,8 +33,8 @@ class Mainlist extends Component {
     }
     async getTechData()
     {
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getAllmainpack,{ headers: headers})
+      const token =  localStorage.getItem('token')
+        await axios.get(config.getAllmainpack,{ headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
             .then((response) => {
               
             this.setState({mainlist:response.data});
@@ -76,12 +76,10 @@ class Mainlist extends Component {
 
      handleMainUpdate = event => {
       event.preventDefault();
-      
-      const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
+      const token =  localStorage.getItem('token')
       const updatemain = JSON.stringify({...this.state.selectedmain})
-      console.log(updatemain)
-  
-      axios.put(config.updateMain, updatemain , {headers: headers})
+   
+      axios.put(config.updateMain, updatemain , {headers:  {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
         .then(res => {
          
           Swal.fire('Update Tech Successful')

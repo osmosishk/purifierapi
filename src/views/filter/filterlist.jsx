@@ -39,8 +39,8 @@ class Filterlist extends Component {
 
     async getFilterData()
     {
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getAllfilter,{ headers: headers})
+      const token =  localStorage.getItem('token')  
+      await axios.get(config.getAllfilter,{ headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
             .then((response) => {
               
             this.setState({filter:response.data});
@@ -84,12 +84,11 @@ class Filterlist extends Component {
 
     handleFilterUpdate = event => {
       event.preventDefault();
-      
-      const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
+      const token =  localStorage.getItem('token')
       const updatefilter = JSON.stringify({...this.state.selectedfilter})
     
   
-      axios.put(config.updateFilter, updatefilter , {headers: headers})
+      axios.put(config.updateFilter, updatefilter , {headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
         .then(res => {
          
           Swal.fire('Update Filter Successful')

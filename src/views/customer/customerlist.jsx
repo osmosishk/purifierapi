@@ -23,8 +23,9 @@ class Customerlist extends Component {
     
     async getSlavesData()
     {
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getAllcustomer,{ headers: headers})
+        const token =  localStorage.getItem('token')
+       
+        await axios.get(config.getAllcustomer,{ headers:  {"Authorization" : `token ${token}`}})
             .then((response) => {
               
             this.setState({customers:response.data});
@@ -33,7 +34,7 @@ class Customerlist extends Component {
        
     }  
     componentDidMount() {
-        localStorage.setItem('token','c3c1d72b219561cfe00084d3434f37c3714f5961')
+        localStorage.setItem('token', config.token)
         this.getSlavesData();
       
     }

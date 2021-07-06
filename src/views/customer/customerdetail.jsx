@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from "axios";
 import config from '../../config.json';
 import ReactTable from "react-table";
+
 import Iframe from "react-iframe";
 import {
   Row,
@@ -44,6 +45,9 @@ class Customerdetail extends Component {
    {
        super(props);
        this.toggle = this.toggle.bind(this);
+       
+       
+       
        this.state = { 
         id : this.props.location.state.id,
         customerinfo : {id :'',customercode:{username:'',email:''}, contactname: '',billingaddress: '',installaddress: '',contactno: '',mobile: '',},
@@ -60,6 +64,7 @@ class Customerdetail extends Component {
         editcaseshow : false,
         docshow:false,
         docshowlink :''
+       
       
      }
      this.showModal = this.showModal.bind(this);
@@ -121,8 +126,8 @@ class Customerdetail extends Component {
     
   async getProductData()
       {
-          const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-          await axios.get(config.getAllproduct,{ headers: headers})
+        const token =  localStorage.getItem('token')
+          await axios.get(config.getAllproduct,{ headers: {"Authorization" : `token ${token}`}})
               .then((response) => {
                 
               this.setState({product:response.data});
@@ -134,10 +139,10 @@ class Customerdetail extends Component {
 
      async getCustomer()
      {
+        const token =  localStorage.getItem('token')
         
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
         this.setState({isFetching: true });
-        await axios.get(config.getAllcustomer+this.state.id+'/',{ headers: headers})
+        await axios.get(config.getAllcustomer+this.state.id+'/',{ headers:  {"Authorization" : `token ${token}`}})
             .then((response) => {
               
             this.setState({customerinfo:response.data,isFetching: false});
@@ -147,6 +152,7 @@ class Customerdetail extends Component {
      } 
 
     componentWillMount() {
+            
             
             this.getCustomer();
             this.getMachine();
@@ -159,8 +165,8 @@ class Customerdetail extends Component {
      async getMachine()
      {
         
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getMachineonlyclient, {headers: headers ,params: {cid: this.state.id} })
+      const token =  localStorage.getItem('token')
+        await axios.get(config.getMachineonlyclient, {headers: {"Authorization" : `token ${token}`} ,params: {cid: this.state.id} })
             .then((response) => {
               
             this.setState({machine:response.data});
@@ -172,8 +178,8 @@ class Customerdetail extends Component {
      async getDoc()
      {
         
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getDoc, {headers: headers ,params: {customer: this.state.id} })
+      const token =  localStorage.getItem('token')
+        await axios.get(config.getDoc, {headers: {"Authorization" : `token ${token}`} ,params: {customer: this.state.id} })
             .then((response) => {
               
             this.setState({jobsheet:response.data});
@@ -185,8 +191,8 @@ class Customerdetail extends Component {
      async getCase()
      {
         
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-        await axios.get(config.getCaseonlyclient, {headers: headers ,params: {cid: this.state.id} })
+      const token =  localStorage.getItem('token')
+        await axios.get(config.getCaseonlyclient, {headers: {"Authorization" : `token ${token}`} ,params: {cid: this.state.id} })
             .then((response) => {
               
             this.setState({case:response.data,loading:false});
@@ -208,12 +214,12 @@ class Customerdetail extends Component {
     handleCustomerUpdate = event => {
       event.preventDefault();
       this.toggle.bind(null)
-      const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
+      const token =  localStorage.getItem('token')
       const updatecustomer = JSON.stringify({...this.state.customerinfo})
      
      // console.log(updatecustomer)
      
-      axios.put(config.updateCustomer, updatecustomer , {headers: headers})
+      axios.put(config.updateCustomer, updatecustomer , {headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
         .then(res => {
           //this.setState({modal: !this.state.modal});
           //this.setState({...this.state.currentaddress});
@@ -231,6 +237,34 @@ class Customerdetail extends Component {
        
         this.setState({ editcaseshow : true });
         this.setState({ caseid : event.currentTarget.value});
+       
+       
+    }
+
+    markascompleted = event => 
+    {
+        
+        let changecase = this.state.case.filter(c=>c.case_id==event.currentTarget.value)
+        let status = changecase[0].iscompleted
+
+        if (!status)
+        {
+          changecase[0].iscompleted =!status
+          
+
+          const token =  localStorage.getItem('token')
+
+         
+          axios.put(config.updateCase, changecase[0],{headers: {"Authorization" : `token ${token}`}})
+          .then(res => {
+             Swal.fire('Mark as Completed ')
+             window.location.reload(false);   
+             })
+          .catch((error) => {
+             console.log(error);
+               })  
+        }
+        
        
        
     }
@@ -275,9 +309,9 @@ class Customerdetail extends Component {
           urlArray.push(server.concat(tempurl[i]));
         }
        
-      
-
-     
+        
+        let conurl ='https://maps.google.com/maps?t=&z=13&ie=UTF8&iwloc=&output=embed&'
+        let googleulr = conurl.concat(this.state.customerinfo.installaddress)
       
 
         if(this.state.isFetching){ return <div>Loading...</div>;}
@@ -322,15 +356,20 @@ class Customerdetail extends Component {
                       <small className="text-muted pt-4 db">Billing Address</small>
                       <h6>{this.state.customerinfo.billingaddress}</h6>
                       <div>
-                          <Iframe
+
+                      <Iframe
                         className="position-relative"
-                        url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508"
+                        url={googleulr}
                         width="280"
                         height="150"
                         frameborder="0"
                         allowfullscreen
-                       />
+                       />     
+
+                        
+
                         </div>
+
                         <div className="button-group">
                           <Button className="btn"  color="primary" onClick={this.printqr} value={this.state.customerinfo.customercode.username} >Print QR Code</Button>
                          
@@ -387,16 +426,11 @@ class Customerdetail extends Component {
                 <ReactTable
                     columns={[
                     
-                    {
-                        Header: "ID",
-                        accessor: "case_id",
-                        width: 20
-                       
-                    },
+                   
                     {
                         Header: " Case Type",
                         accessor: "casetype",
-                        width: 150
+                        width: 180
                        
                     },
                     {
@@ -413,13 +447,9 @@ class Customerdetail extends Component {
                     },
                     {
                       Header: "Water Purifier",
-                      
-                      width: 100,
-                      Cell: ({ original }) => (
-                        <div className="text-center">
-                           
-                        </div>
-                      ),
+                      id:'machines',
+                      width: 300,
+                      accessor: d=> d.machines.map(m=>m.machinetype.productcode).join("\n"),
                      
                      
                     },
@@ -430,14 +460,16 @@ class Customerdetail extends Component {
                      
                   },
                     {
+                        id: 'iscompleted',
                         Header: "Status",
-                        accessor: "iscompleted",
-                        width: 50
+                        accessor:  d => { return d.iscompleted ? 'Completed' : 'Not Yet' },
+                        
+                        width: 80
                        
                     },
                     {
                         Header: "Detail",
-                        width: 50,
+                        width: 80,
                         Cell: ({ original }) => (
                             <div className="text-center">
                                <Button 
@@ -449,7 +481,7 @@ class Customerdetail extends Component {
                                 //icon="true"
                                 value ={original.case_id }
                                 
-                                ><i className="fa fa-edit" /></Button>
+                                ><i className="far fa-folder" /></Button>
                                   
                             </div>
                           ),
@@ -462,14 +494,14 @@ class Customerdetail extends Component {
                         Cell: ({ original }) => (
                             <div className="text-center">
                                <Button 
-                                //onClick={}
+                                onClick={this.markascompleted}
                                 color="inverse"
                                 size="sm"
                                 round="true"
                                 //icon="true"
-                                value ={original.id }
+                                value ={original.case_id }
                                 
-                                ><i className="fa fa-edit" /></Button>
+                                ><i className=" ti-thumb-up" /></Button>
                                   
                             </div>
                           ),

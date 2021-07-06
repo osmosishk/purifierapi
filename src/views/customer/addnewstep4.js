@@ -71,8 +71,9 @@ export default class Step4 extends Component {
 
   async getProductData()
       {
-          const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961' }
-          await axios.get(config.getAllproduct,{ headers: headers})
+        const token =  localStorage.getItem('token')  
+       
+          await axios.get(config.getAllproduct,{ headers: {"Authorization" : `token ${token}`}})
               .then((response) => {
                 
               this.setState({product:response.data});
@@ -86,10 +87,11 @@ export default class Step4 extends Component {
 	handleNewCustomer() {
      
         const addcustomer = JSON.stringify({...this.state.customerinfo})
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
-		    console.log(addcustomer);
         
-        axios.post(config.getAllcustomer, addcustomer,{headers: headers})
+		    console.log(addcustomer);
+        const token =  localStorage.getItem('token')
+
+        axios.post(config.getAllcustomer, addcustomer,{headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
           .then(res => {
              console.log(res);
             console.log(res.data);
@@ -163,19 +165,24 @@ export default class Step4 extends Component {
         event.preventDefault();
         console.log(this.state.machinestring);
         const addmachine = JSON.stringify({...this.state.machinestring})
-        const headers = {'Authorization': 'token c3c1d72b219561cfe00084d3434f37c3714f5961','Content-Type': 'application/json',}
-
+        
+        const token =  localStorage.getItem('token')
         console.log(addmachine);
-        axios.post(config.getAllmachine, addmachine,{headers: headers})
+        axios.post(config.getAllmachine, addmachine,{headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
          .then(res => {
             console.log(res);
             console.log(res.data);
             Swal.fire('Add Water purifier Successful')
             })
-         .catch((error) => {
-            console.log(error);
-              })  
-              
+          .catch((error) => {
+              console.log(error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '${error}'
+              })
+            })
           window.location.reload(false);          
      };
      
