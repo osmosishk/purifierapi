@@ -1,8 +1,6 @@
 import React, { Component ,Fragment } from 'react';
 import ContactsFilter from "../../components/contacts/ContactsFilter";
-import ContactsSearch from "../../components/contacts/ContactsSearch";
-import ContactsList from "../../components/contacts/ContactsList";
-import ContactsDetails from "../../components/contacts/ContactsDetails";
+
 
 class Customerdashboard extends Component {
     state = { 

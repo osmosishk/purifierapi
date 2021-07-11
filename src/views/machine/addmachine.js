@@ -22,9 +22,10 @@ class AddMachine extends Component {
                 customerinfo : {id :'',customercode:{username:'',email:''}},
                 machinestring : {customer :{id :'',customercode:{username:'',email:''}},machineid:'',installaddress1:'',installaddress2:'',mac:'',installdate:'',nextservicedate:'',machinetype:{
                   productcode: '',
-                  producttype: ''}},
+                  producttype: ''},maintenance:''},
                 randomid :'',
                 product: props.product,
+                mainpack: props.mainpack,
     
         }
         this.handleGenID = this.handleGenID.bind(this);
@@ -63,6 +64,16 @@ class AddMachine extends Component {
         let statusCopy = Object.assign({}, this.state.machinestring);
         statusCopy.machinetype["productcode"]=input.value
         statusCopy.machinetype["producttype"]="WPU"
+        this.setState(statusCopy);
+        
+              
+       
+      }
+
+      handleMainTypeChange = ({currentTarget:input}) =>{
+        let statusCopy = Object.assign({}, this.state.machinestring);
+        statusCopy.maintenance["packagecode"]=input.value
+     
         this.setState(statusCopy);
         
               
@@ -119,7 +130,7 @@ class AddMachine extends Component {
     render () {
      
       
-    
+       console.log(this.state.mainpack)
         return (
               <div>
                  <Modal isOpen={this.props.show} fade={this.state.fade } >
@@ -179,6 +190,22 @@ class AddMachine extends Component {
                       defaultValue={this.state.machinestring.installdate}
                     />
                   </FormGroup>
+
+                  <FormGroup>
+                    <Label >Main Package: </Label>
+                  
+                      <Input type="select" name="mainpack" onChange={this.handleMainTypeChange} >
+                      <option >Select ..</option>
+                      {  
+                            this.state.mainpack.map(m => {
+                             return(
+                              <option key ={m.packagecode} value={m.packagecode}>{m.packagecode}</option>
+                            )})
+                      }
+                          
+                      </Input>
+                  </FormGroup>               
+
                   <FormGroup>
                   <Label>Next Date </Label>
                     <Input

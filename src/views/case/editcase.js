@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Card, CardText, Row, Col ,CardTitle,  Button ,
+import { Row, Col , Button ,
     Label,
     Input,
     Form,
@@ -14,7 +14,7 @@ import axios from "axios";
 import config from '../../config.json';
 import MultiSelect from "react-multi-select-component";
 
-import Workorder from "../../pdf/workorder";
+
 
 class EditCase extends Component {
 
@@ -174,7 +174,7 @@ class EditCase extends Component {
 
       componentDidUpdate(prevProps, prevState) {
         if(prevProps.caseid  !== this.state.selectedcaseid){
-        const singlecase = this.props.casestring.filter(c=>c.case_id==this.props.caseid)
+        const singlecase = this.props.casestring.filter(c=>c.case_id===this.props.caseid)
         const editcase = this.state.editcase
         editcase['case_id']=this.props.caseid
         editcase['scheduledate']=singlecase.map(s=>s.scheduledate)[0]
@@ -193,12 +193,12 @@ class EditCase extends Component {
 
       static getDerivedStateFromProps(props, state) {
         
-        const singlecase = props.casestring.filter(c=>c.case_id==props.caseid)
-        let value1 = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.handledby.staffcode)
-        let label1 = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.handledby.staffname)
-        let value2 = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.casetype)
-        let machine = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.machines)
-        let filter = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.filters)
+        const singlecase = props.casestring.filter(c=>c.case_id===props.caseid)
+        let value1 = props.casestring.filter(c=>c.case_id===props.caseid).map(s=>s.handledby.staffcode)
+        let label1 = props.casestring.filter(c=>c.case_id===props.caseid).map(s=>s.handledby.staffname)
+        let value2 = props.casestring.filter(c=>c.case_id===props.caseid).map(s=>s.casetype)
+        let machine = props.casestring.filter(c=>c.case_id===props.caseid).map(s=>s.machines)
+        let filter = props.casestring.filter(c=>c.case_id===props.caseid).map(s=>s.filters)
         let machinestring =[]
         let filterstring =[]
 
@@ -220,7 +220,7 @@ class EditCase extends Component {
         {
           let tempfilterstring= filter[0].map(f=>f.filtercode);
         
-          for(var i=0;i<tempfilterstring.length;i++){
+          for(i=0;i<tempfilterstring.length;i++){
             filterstring.push({value:tempfilterstring[i], label:tempfilterstring[i]})
         
           }

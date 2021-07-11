@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardText, Row, Col ,CardTitle,  Button ,
+import { Card, CardText,Col ,CardTitle,  Button ,
   Label,
   Input,
   Form,
@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import axios from "axios";
 import config from '../../config.json';
 import QRCode from "qrcode.react";
+import Maintanance from './../authentication/Maintanance';
 
 class MachineCard extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class MachineCard extends Component {
             machineinfo : {machineid :'',installaddress1: '',installaddress2: '',mac: '',installdate: '',nextservicedate: '',},
             testmachine : props.machine,
             product: props.product,
+            mainpack: props.mainpack,
     }
   }
   handleMachineChange = ({currentTarget:input}) =>{
@@ -44,20 +46,17 @@ class MachineCard extends Component {
           
    
   }
-  async getProductData()
-      {
-          const token =  localStorage.getItem('token')
-          await axios.get(config.getAllproduct,{ headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
-              .then((response) => {
-                
-              this.setState({product:response.data});
-          });
-         
-         
-      }  
-  
 
-  
+  handleMainTypeChange = ({currentTarget:input}) =>{
+    let statusCopy = Object.assign({}, this.state.testmachine);
+    statusCopy.maintenance["packagecode"]=input.value
+ 
+    this.setState(statusCopy);
+    
+          
+   
+  }
+
   showMachineModal()
   {
     this.setState({modal: !this.state.modal});
@@ -118,9 +117,8 @@ class MachineCard extends Component {
   }
 
   render () {
-    let { id,machineid,installaddress1,installaddress2,installdate,nextservicedate , mac ,machinetype} = this.props.machine;
-   
-    
+    let { id,machineid,installaddress1,installaddress2,installdate,nextservicedate , mac ,machinetype,maintenance} = this.props.machine;
+  
     return (
           <div>
              <Modal isOpen={this.state.modal} fade={this.state.fade } toggle={this.toggle}>
@@ -184,7 +182,7 @@ class MachineCard extends Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                  <Label>Next Date </Label>
+                  <Label>Next Service Date </Label>
                     <Input
                       type="date"
                       name="nextservicedate"
@@ -193,6 +191,21 @@ class MachineCard extends Component {
                     
                     />
                   </FormGroup>
+
+                  <FormGroup>
+                    <Label >Main Package: </Label>
+                  
+                      <Input type="select" name="mainpack" onChange={this.handleMainTypeChange} defaultValue = {maintenance.packagecode}>
+                      <option >Select ..</option>
+                      {  
+                            this.state.mainpack.map(m => {
+                             return(
+                              <option key ={m.packagecode} value={m.packagecode}>{m.packagecode}</option>
+                            )})
+                      }
+                          
+                      </Input>
+                  </FormGroup>               
                   
                 
               
@@ -215,13 +228,13 @@ class MachineCard extends Component {
               </Modal>
 
               <Card body outline color="success" className="border">
-                    <CardTitle>ID : {id}</CardTitle>
-                    <CardTitle>Machine ID : {machineid}</CardTitle>
-                    <CardText>Model : {machinetype.productcode}</CardText>
-                    <CardText>Installation Address  :{installaddress1}</CardText>
-                    <CardText>                      :{installaddress2}</CardText>
+                    
+                    <CardTitle>Machine ID : {machineid}   Model : {machinetype.productcode}</CardTitle>
+                    <CardText>Installation Address  :{installaddress1} / {installaddress2}</CardText>
                     <CardText>Next Service Date : {nextservicedate}</CardText>
                     <CardText>Installation Date : {installdate}</CardText>
+                    <CardText>Maintanance : {maintenance.packagecode}    Detail : {maintenance.packagedetail}</CardText>
+                  
                     <Col sm={12} lg={3}>
                         <div className="button-group">
                           <Button className="btn"  color="success" onClick={() => this.showMachineModal()}>Edit</Button>

@@ -10,7 +10,6 @@ import {
   Card,
   CardBody,
   CardTitle,
-  CardImg,
   CardSubtitle,
   Button,
   TabContent,
@@ -54,6 +53,7 @@ class Customerdetail extends Component {
         machine :[],
         case :[],
         product:[],
+        mainpack:[],
         jobsheet:{ customer:'',casetype:'',date:'',doctype:'',filename:'',image_path:'',scandate:''},
       
         activeTab : '1',
@@ -159,6 +159,7 @@ class Customerdetail extends Component {
             this.getCase();
             this.getProductData();
             this.getDoc();
+            this.getMainPack();
            
         
         }
@@ -201,6 +202,17 @@ class Customerdetail extends Component {
         
      } 
 
+     async getMainPack()
+     {
+         const token =  localStorage.getItem('token')
+         await axios.get(config.getAllmainpack,{ headers: {"Authorization" : `token ${token}`,'Content-Type': 'application/json'}})
+             .then((response) => {
+               
+             this.setState({mainpack:response.data});
+         });
+        
+        
+     }      
    
 
      handleCustomerChange = ({currentTarget:input}) =>{
@@ -244,7 +256,7 @@ class Customerdetail extends Component {
     markascompleted = event => 
     {
         
-        let changecase = this.state.case.filter(c=>c.case_id==event.currentTarget.value)
+        let changecase = this.state.case.filter(c=>c.case_id===event.currentTarget.value)
         let status = changecase[0].iscompleted
 
         if (!status)
@@ -527,7 +539,7 @@ class Customerdetail extends Component {
                         <div className="button-group">
                         
                         <Button className="btn"  color="danger" onClick={this.showModal} >Add Water purifier</Button>
-                        <AddMachine show={this.state.machineshow} handleClose={this.hideModal} customer={this.state.customerinfo} product={this.state.product}/>
+                        <AddMachine show={this.state.machineshow} handleClose={this.hideModal} customer={this.state.customerinfo} product={this.state.product} mainpack={this.state.mainpack}/>
                         </div>  
                          {  
                             this.state.machine.map(machine => {
@@ -535,7 +547,7 @@ class Customerdetail extends Component {
                                  <div key={machine.machineid}>
                                 
                                  <Col sm="12" >
-                                         <MachineCard key={machine.machineid} machine={machine} product={this.state.product}/>
+                                         <MachineCard key={machine.machineid} machine={machine} product={this.state.product} mainpack={this.state.mainpack}/>
                                  </Col>
                                  </div>
 

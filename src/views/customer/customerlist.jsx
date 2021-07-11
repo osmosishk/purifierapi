@@ -25,7 +25,7 @@ class Customerlist extends Component {
     {
         const token =  localStorage.getItem('token')
        
-        await axios.get(config.getAllcustomer,{ headers:  {"Authorization" : `token ${token}`}})
+        await axios.get(config.getAllcustomer,{ headers:  {"Authorization" : `token ${token}` }})
             .then((response) => {
               
             this.setState({customers:response.data});
