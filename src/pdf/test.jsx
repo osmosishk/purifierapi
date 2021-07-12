@@ -16,10 +16,11 @@ class pdfg extends Component {
       _exportPdf = () => {
 
         html2canvas(document.querySelector("#capture")).then(canvas => {
-           document.body.appendChild(canvas);  // if you want see your screenshot in body.
+           //document.body.appendChild(canvas);  // if you want see your screenshot in body.
            const imgData = canvas.toDataURL('image/jpeg', 1.0);
            const pdf = new jsPDF('p', 'mm', 'a4');
-           pdf.addImage(imgData, 'PNG', 3, 2);
+           //pdf.addImage(imgData, 'PNG', 3, 2);
+           pdf.addImage(imgData, 'JPEG', 3, 2  );
 
            //var iframe = document.createElement('iframe');
 	       //iframe.setAttribute('style','position:absolute;right:0; top:0; bottom:0; height:100%; width:650px; padding:20px;');
@@ -37,7 +38,8 @@ class pdfg extends Component {
 
        function debugBase64(base64URL){
         var win = window.open();
-        win.document.write('<iframe src="' + base64URL  + '"position:absolute; frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:1200; height:100%;" allowfullscreen></iframe>');
+        //win.document.write('<iframe src="' + base64URL  + '"position:absolute; frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:1200; height:100%;" allowfullscreen></iframe>');
+        win.document.write('<iframe src="' + base64URL  + '"position:absolute; frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
     }
    
     }
@@ -53,11 +55,11 @@ class pdfg extends Component {
             </div>
              <div id="capture">
              <font size="1">______________________________ {this.state.customercode}</font>
-             <table border="1" cellspacing="10"  cellpadding="10">
+             <table border="1" bordercolor="white" cellspacing="10"  cellpadding="10">
              <thead>
               <tr>
                
-                <table border="3" bordercolor="white" cellpadding="12">
+                <table border="3" bordercolor="white" cellpadding="16">
                   <thead>
                     <tr>
                       <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
@@ -71,37 +73,37 @@ class pdfg extends Component {
 
                     </tr>
                     <tr>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
 
                     </tr>
                     <tr>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
 
                     </tr>
 
                     <tr>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
-                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='50'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
+                      <th class="tg-0lax"> <QRCode value={this.state.customercode} renderAs="svg"  level="H"  size='60'  fgColor="#000" bgColor="#fff"/></th>
 
                     </tr>
                     <tr>
