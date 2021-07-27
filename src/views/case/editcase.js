@@ -173,8 +173,9 @@ class EditCase extends Component {
       
 
       componentDidUpdate(prevProps, prevState) {
+        
         if(prevProps.caseid  !== this.state.selectedcaseid){
-        const singlecase = this.props.casestring.filter(c=>c.case_id===this.props.caseid)
+        const singlecase = this.props.casestring.filter(c=>c.case_id==this.props.caseid)
         const editcase = this.state.editcase
         editcase['case_id']=this.props.caseid
         editcase['scheduledate']=singlecase.map(s=>s.scheduledate)[0]
@@ -188,17 +189,19 @@ class EditCase extends Component {
         editcase['handledby']=singlecase.map(s=>s.handledby)[0]
         editcase['iscompleted']=singlecase.map(s=>s.iscompleted)[0]
         this.setState({editcase})
+        
         }
       }
 
       static getDerivedStateFromProps(props, state) {
         
-        const singlecase = props.casestring.filter(c=>c.case_id===props.caseid)
-        let value1 = props.casestring.filter(c=>c.case_id===props.caseid).map(s=>s.handledby.staffcode)
-        let label1 = props.casestring.filter(c=>c.case_id===props.caseid).map(s=>s.handledby.staffname)
-        let value2 = props.casestring.filter(c=>c.case_id===props.caseid).map(s=>s.casetype)
-        let machine = props.casestring.filter(c=>c.case_id===props.caseid).map(s=>s.machines)
-        let filter = props.casestring.filter(c=>c.case_id===props.caseid).map(s=>s.filters)
+        const singlecase = props.casestring.filter(c=>c.case_id==props.caseid)
+        
+        let value1 = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.handledby.staffcode)
+        let label1 = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.handledby.staffname)
+        let value2 = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.casetype)
+        let machine = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.machines)
+        let filter = props.casestring.filter(c=>c.case_id==props.caseid).map(s=>s.filters)
         let machinestring =[]
         let filterstring =[]
 

@@ -256,7 +256,7 @@ class Customerdetail extends Component {
     markascompleted = event => 
     {
         
-        let changecase = this.state.case.filter(c=>c.case_id===event.currentTarget.value)
+        let changecase = this.state.case.filter(c=>c.case_id==event.currentTarget.value)
         let status = changecase[0].iscompleted
 
         if (!status)
@@ -311,7 +311,7 @@ class Customerdetail extends Component {
     
     render() { 
        
-        //console.log(this.state.customerinfo)
+       // console.log(this.state.case)
         let image = this.state.jobsheet;
         let tempurl = Object.keys(image).map(m=>image[m].image_path)
         let server ='http://139.162.46.17/'

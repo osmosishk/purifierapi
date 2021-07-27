@@ -62,11 +62,16 @@ class workorder extends Component {
         const card = document.querySelector("#capture");
         
         html2canvas(card, options).then(canvas => {
-           document.body.appendChild(canvas);  // if you want see your screenshot in body.
+           //document.body.appendChild(canvas);  // if you want see your screenshot in body.
            
            const imgData = canvas.toDataURL('image/jpeg', 1.0);
-           const pdf = new jsPDF('l', 'mm', 'a4' );;
-           pdf.addImage(imgData, 'JPEG', 0, 0  );
+           const pdf = new jsPDF('l', 'mm', 'a4' );
+
+           var width = pdf.internal.pageSize.getWidth();
+           var height = pdf.internal.pageSize.getHeight();
+
+           console.log(width)
+           pdf.addImage(imgData, 'JPEG', 30,10 );
 
           // var iframe = document.createElement('iframe');
 	      // iframe.setAttribute('style','position:absolute;right:0; top:0; bottom:0; height:100%; width:650px; padding:20px;');
@@ -95,6 +100,7 @@ class workorder extends Component {
       render() { 
 
         var machine = this.state.case.machines
+        
         var filter = this.state.case.filters 
      
    
@@ -118,6 +124,8 @@ class workorder extends Component {
               {Object.keys(filter).map(obj => <div key={obj}>{filter[obj].filtercode}</div>)}
             </div>
           );
+
+
           
           
         return ( 

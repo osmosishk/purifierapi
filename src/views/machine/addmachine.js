@@ -11,6 +11,7 @@ import {   Button ,
 import Swal from 'sweetalert2';
 import axios from "axios";
 import config from '../../config.json';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 
 class AddMachine extends Component {
@@ -22,7 +23,7 @@ class AddMachine extends Component {
                 customerinfo : {id :'',customercode:{username:'',email:''}},
                 machinestring : {customer :{id :'',customercode:{username:'',email:''}},machineid:'',installaddress1:'',installaddress2:'',mac:'',installdate:'',nextservicedate:'',machinetype:{
                   productcode: '',
-                  producttype: ''},maintenance:''},
+                  producttype: ''},maintenance:{packagecode:''}},
                 randomid :'',
                 product: props.product,
                 mainpack: props.mainpack,
@@ -72,6 +73,7 @@ class AddMachine extends Component {
 
       handleMainTypeChange = ({currentTarget:input}) =>{
         let statusCopy = Object.assign({}, this.state.machinestring);
+        console.log(statusCopy)
         statusCopy.maintenance["packagecode"]=input.value
      
         this.setState(statusCopy);
@@ -130,7 +132,7 @@ class AddMachine extends Component {
     render () {
      
       
-       console.log(this.state.mainpack)
+       //console.log(this.state.mainpack)
         return (
               <div>
                  <Modal isOpen={this.props.show} fade={this.state.fade } >
