@@ -65,13 +65,13 @@ class workorder extends Component {
            //document.body.appendChild(canvas);  // if you want see your screenshot in body.
            
            const imgData = canvas.toDataURL('image/jpeg', 1.0);
-           const pdf = new jsPDF('l', 'mm', 'a4' );
+           const pdf = new jsPDF('l', 'pt', 'a4' );
 
            var width = pdf.internal.pageSize.getWidth();
            var height = pdf.internal.pageSize.getHeight();
 
            console.log(width)
-           pdf.addImage(imgData, 'JPEG', 30,10 );
+           pdf.addImage(imgData, 'JPEG', 270,180 ,1571,850  );
 
           // var iframe = document.createElement('iframe');
 	      // iframe.setAttribute('style','position:absolute;right:0; top:0; bottom:0; height:100%; width:650px; padding:20px;');
